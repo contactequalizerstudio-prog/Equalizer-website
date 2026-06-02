@@ -12,22 +12,22 @@ const values = [
   {
     title: "Excellence",
     description:
-      "Nous nous engageons à livrer des prestations de la plus haute qualité, en dépassant systématiquement vos attentes.",
+      "Soigner les détails, viser une qualité d'éxecution premium et livrer unrendu à la hauteur des attentes. L'objectif : que chaque prestation fasse la différence."  
+    },
+  {
+    title: "Énergie",
+    description:
+      "Apporter une vraie dynamique à chaque événement. Une présence vivante, professionnelle et positive qui transforme l’ambiance et donne du relief à l’expérience.",
   },
   {
-    title: "Professionnalisme",
+    title: "Polyvalence",
     description:
-      "Notre équipe est formée et expérimentée pour assurer le succès de chaque projet, quelle qu'en soit la taille.",
-  },
-  {
-    title: "Créativité",
-    description:
-      "Nous apportons des idées fraîches et innovantes pour rendre votre communication percutante et mémorable.",
+      "Réunir plusieurs expertises dans une seule équipe : hôtesses, animation, photo, vidéo, drone, voix off, coordination terrain. Une solution complète, fluide et maîtrisée du début à la fin.",
   },
   {
     title: "Fiabilité",
     description:
-      "Ponctualité, rigueur et respect de vos engagements — nous sommes le partenaire sur lequel vous pouvez compter.",
+      "Être présents, prêts et efficaces à chaque étape. Equalizer Studio inspire confiance par sa rigueur, son sens du terrain et sa capacité à assurer, même quand le rythme s’accélère.",
   },
 ];
 

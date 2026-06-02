@@ -4,34 +4,70 @@ import { useState } from "react";
 
 type FormStatus = "idle" | "sending" | "sent" | "error";
 
+const SERVICES = [
+  "Couverture photos",
+  "Couverture vidéo",
+  "Création Spot audio",
+  "Enregistrement Voix Off",
+  "Organisation Événementielle",
+  "Maitre de cérémonie",
+  "Animateur micro",
+  "Hôtesses d'accueil",
+  "Animatrices de vente",
+  "Autre",
+];
+
 export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    service: "",
+    services: [] as string[],
+    autreService: "",
     message: "",
   });
   const [status, setStatus] = useState<FormStatus>("idle");
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleServiceToggle = (service: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      services: prev.services.includes(service)
+        ? prev.services.filter((s) => s !== service)
+        : [...prev.services, service],
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
 
-    const subject = `[Equalizer Studio] Demande de ${formData.name}${formData.service ? ` — ${formData.service}` : ""}`;
-    const body = `Nom : ${formData.name}\nEmail : ${formData.email}\nTéléphone : ${formData.phone || "Non renseigné"}\nService : ${formData.service || "Non renseigné"}\n\nMessage :\n${formData.message}`;
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    window.location.href = `mailto:contact.equalizerstudio@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      if (!res.ok) {
+        setStatus("error");
+        return;
+      }
 
-    setTimeout(() => setStatus("sent"), 500);
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  const resetForm = () => {
+    setStatus("idle");
+    setFormData({ name: "", email: "", phone: "", services: [], autreService: "", message: "" });
   };
 
   if (status === "sent") {
@@ -65,16 +101,7 @@ export default function ContactForm() {
           vers vous dans les plus brefs délais.
         </p>
         <button
-          onClick={() => {
-            setStatus("idle");
-            setFormData({
-              name: "",
-              email: "",
-              phone: "",
-              service: "",
-              message: "",
-            });
-          }}
+          onClick={resetForm}
           className="px-6 py-3 border border-gold text-gold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold hover:text-black transition-all duration-300"
         >
           Nouveau message
@@ -96,7 +123,7 @@ export default function ContactForm() {
         Envoyez-nous un message
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5" aria-label="Informations personnelles">
         {/* Name */}
         <div className="flex flex-col gap-2">
           <label
@@ -140,7 +167,7 @@ export default function ContactForm() {
         </div>
 
         {/* Phone */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 sm:col-span-2">
           <label
             htmlFor="phone"
             className="text-muted text-xs tracking-[0.2em] uppercase"
@@ -159,47 +186,66 @@ export default function ContactForm() {
           />
         </div>
 
-        {/* Service */}
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="service"
-            className="text-muted text-xs tracking-[0.2em] uppercase"
-          >
-            Service souhaité
-          </label>
-          <select
-            id="service"
-            name="service"
-            value={formData.service}
-            onChange={handleChange}
-            className="bg-background border border-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-gold transition-colors duration-200 appearance-none"
-          >
-            <option value="" className="bg-surface">
-              Sélectionner un service
-            </option>
-            <option value="Photos & Vidéos" className="bg-surface">
-              Photos & Vidéos
-            </option>
-            <option value="Voix Off / Spot Audio" className="bg-surface">
-              Voix Off / Spot Audio
-            </option>
-            <option value="Évènementiel" className="bg-surface">
-              Évènementiel
-            </option>
-            <option value="MC / Animateur" className="bg-surface">
-              MC / Animateur
-            </option>
-            <option value="Hôtesses & Animatrices" className="bg-surface">
-              Hôtesses & Animatrices
-            </option>
-            <option value="Team Building" className="bg-surface">
-              Team Building
-            </option>
-            <option value="Autre" className="bg-surface">
-              Autre
-            </option>
-          </select>
+      </div>
+
+      {/* Services (checkboxes) */}
+      <div className="flex flex-col gap-3 mb-5">
+        <p className="text-muted text-xs tracking-[0.2em] uppercase">
+          Service(s) souhaité(s)
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {SERVICES.map((service) => {
+            const checked = formData.services.includes(service);
+            return (
+              <label
+                key={service}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg border cursor-pointer select-none transition-colors duration-200 ${
+                  checked
+                    ? "border-gold bg-gold/5 text-white"
+                    : "border-border bg-background text-muted hover:border-gold/50"
+                }`}
+              >
+                <span
+                  className={`shrink-0 w-4 h-4 rounded border flex items-center justify-center transition-colors duration-200 ${
+                    checked ? "border-gold bg-gold" : "border-border bg-transparent"
+                  }`}
+                  aria-hidden="true"
+                >
+                  {checked && (
+                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                      <path
+                        d="M1 4l2.5 2.5L9 1"
+                        stroke="#000"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+                </span>
+                <input
+                  type="checkbox"
+                  className="sr-only"
+                  checked={checked}
+                  onChange={() => handleServiceToggle(service)}
+                />
+                <span className="text-sm">{service}</span>
+              </label>
+            );
+          })}
         </div>
+
+        {/* "Autre" text input */}
+        {formData.services.includes("Autre") && (
+          <input
+            name="autreService"
+            type="text"
+            value={formData.autreService}
+            onChange={handleChange}
+            placeholder="Précisez votre service..."
+            className="bg-background border border-gold/50 rounded-lg px-4 py-3 text-white text-sm placeholder:text-muted/50 focus:outline-none focus:border-gold transition-colors duration-200"
+          />
+        )}
       </div>
 
       {/* Message */}
@@ -256,9 +302,11 @@ export default function ContactForm() {
         )}
       </button>
 
-      <p className="text-muted text-xs text-center mt-4">
-        Votre message ouvrira votre application email pour envoi.
-      </p>
+      {status === "error" && (
+        <p className="text-red-400 text-xs text-center mt-4">
+          Une erreur est survenue. Veuillez réessayer ou nous contacter directement par email.
+        </p>
+      )}
     </form>
   );
 }

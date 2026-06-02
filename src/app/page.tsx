@@ -108,7 +108,7 @@ export default function HomePage() {
         {/* Hero content */}
         <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-10 text-center py-32">
           <p className="animate-fade-up animation-delay-200 text-gold text-xs tracking-[0.35em] uppercase font-medium mb-6">
-            Agence de Communication événementielle
+            Agence de Communication et événementielle
           </p>
           <h1
             className="animate-fade-up animation-delay-400 font-display text-5xl sm:text-6xl lg:text-8xl font-light text-white leading-[1.1] mb-6 tracking-tight"
