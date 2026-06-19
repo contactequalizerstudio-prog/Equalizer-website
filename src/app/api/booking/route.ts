@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
 
-const DESTINATION_EMAIL = "mihajamikalo@gmail.com";
+const DESTINATION_EMAIL = "contact.equalizerstudio@gmail.com";
 
 export async function POST(request: Request) {
   try {
