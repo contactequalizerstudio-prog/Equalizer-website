@@ -156,7 +156,7 @@ export default function HotessesPage() {
               </div>
 
               <Link
-                href="/nous-contacter"
+                href="/reserver-hotesses"
                 className="inline-flex items-center gap-2 mt-8 px-8 py-4 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)]"
               >
                 Réserver des hôtesses
@@ -334,7 +334,7 @@ export default function HotessesPage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href="/nous-contacter"
+              href="/reserver-hotesses"
               className="px-10 py-4 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)]"
             >
               Réserver des hôtesses
