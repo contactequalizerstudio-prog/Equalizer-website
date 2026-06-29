@@ -340,10 +340,10 @@ export default function HotessesPage() {
               Réserver des hôtesses
             </Link>
             <Link
-              href="/nos-services"
+              href="/postuler-hotesse"
               className="px-10 py-4 border border-gold text-gold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold hover:text-black transition-all duration-300"
             >
-              Voir tous nos services
+              Postuler en tant que hôtesse
             </Link>
           </div>
         </div>
