@@ -19,7 +19,14 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       const res = await fetch("/api/admin/album");
-      setItems(await res.json());
+      if (!res.ok) {
+        showToast("Impossible de charger les articles.", false);
+        return;
+      }
+      const data = await res.json();
+      setItems(Array.isArray(data) ? data : []);
+    } catch {
+      showToast("Erreur réseau.", false);
     } finally {
       setLoading(false);
     }

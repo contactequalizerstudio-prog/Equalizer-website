@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllItemsAsync } from "@/lib/album-store";
+import { getAllItemsAsync, getAllItems } from "@/lib/album-store";
 
 export const dynamic = "force-dynamic";
 
@@ -58,7 +58,7 @@ const logosRow2 = [
 ];
 
 export default async function AlbumPage() {
-  const galleryItems = await getAllItemsAsync();
+  const galleryItems = process.env.VERCEL ? await getAllItemsAsync() : getAllItems();
 
   return (
     <>
