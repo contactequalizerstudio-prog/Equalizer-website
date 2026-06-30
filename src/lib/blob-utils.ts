@@ -1,12 +1,9 @@
 /**
- * Converts a Vercel Blob private URL to a proxied URL served by /api/img.
- * Local paths (e.g. /presidence.jpeg) are returned unchanged.
+ * Returns the display URL for an album image src.
+ * - Public Vercel Blob URLs (*.public.blob.vercel-storage.com) are returned as-is.
+ * - Local paths (/xxx.jpeg) are returned as-is.
  */
 export function toDisplaySrc(src: string): string {
-  if (!src) return src;
-  if (src.includes(".blob.vercel-storage.com")) {
-    return `/api/img?url=${encodeURIComponent(src)}`;
-  }
   return src;
 }
 

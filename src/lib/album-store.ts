@@ -40,19 +40,16 @@ async function readBlob(): Promise<AlbumItem[]> {
     return seed;
   }
 
-  // Read private blob via SDK (uses BLOB_READ_WRITE_TOKEN automatically)
-  const result = await get(existing.url, { access: "private" });
-  if (!result || !result.stream) {
-    throw new Error("[album-store] Failed to read album.json from Blob");
-  }
-  const text = await new Response(result.stream as unknown as ReadableStream).text();
-  return JSON.parse(text) as AlbumItem[];
+  // Public blob — fetch directly by URL (no auth required)
+  const res = await fetch(existing.url + `?t=${Date.now()}`, { cache: "no-store" });
+  if (!res.ok) throw new Error(`[album-store] Failed to fetch album.json: ${res.status}`);
+  return (await res.json()) as AlbumItem[];
 }
 
 async function writeBlob(items: AlbumItem[]): Promise<void> {
   const { put } = await import("@vercel/blob");
   await put(BLOB_KEY, JSON.stringify(items, null, 2), {
-    access: "private",
+    access: "public",
     contentType: "application/json",
     addRandomSuffix: false,
   });
