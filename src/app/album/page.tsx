@@ -70,7 +70,7 @@ export default async function AlbumPage() {
             src="/portfolio.jpeg"
             alt=""
             fill
-            className="object-cover object-[center_60%]"
+            className="object-cover object-[center_25%]"
             priority
             aria-hidden="true"
           />

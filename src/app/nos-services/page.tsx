@@ -125,7 +125,7 @@ const services: {
       "Animation & facilitation",
       "Évaluation & restitution",
     ],
-    image: "/9.png",
+    image: "/team.jpeg",
   },
 ];
 
