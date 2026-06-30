@@ -72,19 +72,19 @@ const contexts = [
     title: "Conférences d'entreprise",
     description:
       "Accueil des participants, check-in, remise de badges et passation de micro lors des sessions plénières.",
-    image: "/first_image.png",
+    image: "/hotêsse/le.jpeg",
   },
   {
     title: "Salons & Expositions",
     description:
       "Animation de stands, présentation de produits et accueil des visiteurs pour maximiser votre visibilité.",
-    image: "/second_image.png",
+    image: "/hotêsse/se.jpeg",
   },
   {
     title: "Lancements de Produits",
     description:
       "Démonstration dynamique et promotion de vos nouveaux produits en CHR, GMS et points de vente.",
-    image: "/album-cover.jpeg",
+    image: "/hotêsse/lm.jpeg",
   },
 ];
 
