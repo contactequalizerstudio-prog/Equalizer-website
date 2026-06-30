@@ -67,10 +67,10 @@ export default async function AlbumPage() {
       <section className="relative h-72 lg:h-96 flex items-end overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/album-cover.jpeg"
+            src="/portfolio.jpeg"
             alt=""
             fill
-            className="object-cover object-center"
+            className="object-cover object-[center_60%]"
             priority
             aria-hidden="true"
           />
