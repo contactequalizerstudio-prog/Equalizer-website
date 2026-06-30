@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     const { get } = await import("@vercel/blob");
     const result = await get(blobUrl, { access: "private" });
 
-    if (!result || result.statusCode === 404) {
+    if (!result || !result.stream) {
       return new NextResponse("Not found", { status: 404 });
     }
 
