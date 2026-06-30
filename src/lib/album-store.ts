@@ -40,20 +40,15 @@ async function readBlob(): Promise<AlbumItem[]> {
     return seed;
   }
 
-  // Private blob — read with token auth header
-  const res = await fetch(existing.url, {
-    headers: {
-      Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`,
-    },
-    cache: "no-store",
-  });
+  // Public blob — fetch directly by URL
+  const res = await fetch(existing.url + `?t=${Date.now()}`, { cache: "no-store" });
   return (await res.json()) as AlbumItem[];
 }
 
 async function writeBlob(items: AlbumItem[]): Promise<void> {
   const { put } = await import("@vercel/blob");
   await put(BLOB_KEY, JSON.stringify(items, null, 2), {
-    access: "private",
+    access: "public",
     contentType: "application/json",
     addRandomSuffix: false,
   });
