@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { getAllItems, createItem } from "@/lib/album-store";
+import { getAllItemsAsync, createItemAsync } from "@/lib/album-store";
 
 export async function GET() {
   try {
-    const items = getAllItems();
+    const items = await getAllItemsAsync();
     return NextResponse.json(items);
   } catch {
     return NextResponse.json({ error: "Erreur lecture données." }, { status: 500 });
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const newItem = createItem({
+    const newItem = await createItemAsync({
       src,
       alt: alt ?? "",
       category,

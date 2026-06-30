@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getItemById, updateItem, deleteItem } from "@/lib/album-store";
+import { getItemByIdAsync, updateItemAsync, deleteItemAsync } from "@/lib/album-store";
 
 export async function GET(
   _request: Request,
@@ -7,7 +7,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const item = getItemById(Number(id));
+    const item = await getItemByIdAsync(Number(id));
     if (!item) {
       return NextResponse.json({ error: "Article introuvable." }, { status: 404 });
     }
@@ -24,7 +24,7 @@ export async function PUT(
   try {
     const { id } = await params;
     const data = await request.json();
-    const updated = updateItem(Number(id), data);
+    const updated = await updateItemAsync(Number(id), data);
     if (!updated) {
       return NextResponse.json({ error: "Article introuvable." }, { status: 404 });
     }
@@ -40,7 +40,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const ok = deleteItem(Number(id));
+    const ok = await deleteItemAsync(Number(id));
     if (!ok) {
       return NextResponse.json({ error: "Article introuvable." }, { status: 404 });
     }
