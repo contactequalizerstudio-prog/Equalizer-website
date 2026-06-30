@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef, FormEvent, ChangeEvent } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import type { AlbumItem } from "@/lib/album-store";
@@ -28,7 +27,6 @@ interface Props {
 }
 
 export default function ArticleForm({ mode, itemId }: Props) {
-  const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [loading, setLoading] = useState(mode === "edit");
@@ -133,7 +131,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
       setSuccess(
         mode === "create" ? "Article créé avec succès !" : "Article mis à jour !"
       );
-      setTimeout(() => router.push("/admin"), 1200);
+      setTimeout(() => { window.location.href = "/admin"; }, 1200);
     } catch {
       setError("Erreur lors de la sauvegarde.");
     } finally {
