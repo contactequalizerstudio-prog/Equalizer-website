@@ -82,24 +82,38 @@ export default function ArticleForm({ mode, itemId }: Props) {
     setUploading(true);
     setError("");
 
-    const local = URL.createObjectURL(file);
-    setPreviewSrc(local);
-
-    const fd = new FormData();
-    fd.append("file", file);
+    // Show local preview immediately while uploading
+    const localPreview = URL.createObjectURL(file);
+    setPreviewSrc(localPreview);
 
     try {
-      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error ?? "Erreur upload.");
-        return;
+      const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
+      const filename = `uploads/upload-${Date.now()}.${ext}`;
+
+      // On Vercel: use client-side direct upload to bypass the 4.5 MB limit
+      if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
+        const { upload } = await import("@vercel/blob/client");
+        const blob = await upload(filename, file, {
+          access: "public",
+          handleUploadUrl: "/api/admin/upload",
+        });
+        setForm((prev) => ({ ...prev, src: blob.url }));
+        setPreviewSrc(toDisplaySrc(blob.url));
+      } else {
+        // Local dev: send file via FormData
+        const fd = new FormData();
+        fd.append("file", file);
+        const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+        const data = await res.json();
+        if (!res.ok) {
+          setError(data.error ?? "Erreur upload.");
+          return;
+        }
+        setForm((prev) => ({ ...prev, src: data.src }));
+        setPreviewSrc(toDisplaySrc(data.src));
       }
-      setForm((prev) => ({ ...prev, src: data.src }));
-      // previewSrc goes through proxy for private Vercel Blob URLs
-      setPreviewSrc(toDisplaySrc(data.src));
-    } catch {
-      setError("Erreur lors de l'upload.");
+    } catch (err) {
+      setError((err as Error).message ?? "Erreur lors de l'upload.");
     } finally {
       setUploading(false);
     }
