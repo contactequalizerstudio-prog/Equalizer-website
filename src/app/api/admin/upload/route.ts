@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { writeFile } from "fs/promises";
-import path from "path";
+
+const IS_VERCEL = !!process.env.VERCEL;
+const HAS_BLOB_TOKEN = !!process.env.BLOB_READ_WRITE_TOKEN;
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +15,7 @@ export async function POST(request: Request) {
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif"];
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
-        { error: "Type de fichier non autorisé. Utilisez JPG, PNG ou WebP." },
+        { error: "Type non autorisé. Utilisez JPG, PNG ou WebP." },
         { status: 400 }
       );
     }
@@ -28,14 +29,27 @@ export async function POST(request: Request) {
 
     const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
     const filename = `upload-${Date.now()}.${ext}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    const filePath = path.join(uploadDir, filename);
 
-    const bytes = await file.arrayBuffer();
-    await writeFile(filePath, Buffer.from(bytes));
-
-    return NextResponse.json({ src: `/uploads/${filename}` }, { status: 201 });
-  } catch {
+    if (IS_VERCEL && HAS_BLOB_TOKEN) {
+      // ── Vercel: store image in Blob (public, accessible by URL) ──
+      const { put } = await import("@vercel/blob");
+      const blob = await put(`uploads/${filename}`, file, {
+        access: "public",
+        addRandomSuffix: false,
+      });
+      return NextResponse.json({ src: blob.url }, { status: 201 });
+    } else {
+      // ── Local dev: write to public/uploads/ ───────────────────────
+      const { writeFile, mkdir } = await import("fs/promises");
+      const path = await import("path");
+      const uploadDir = path.join(process.cwd(), "public", "uploads");
+      await mkdir(uploadDir, { recursive: true });
+      const bytes = await file.arrayBuffer();
+      await writeFile(path.join(uploadDir, filename), Buffer.from(bytes));
+      return NextResponse.json({ src: `/uploads/${filename}` }, { status: 201 });
+    }
+  } catch (err) {
+    console.error("[upload]", err);
     return NextResponse.json({ error: "Erreur upload." }, { status: 500 });
   }
 }
