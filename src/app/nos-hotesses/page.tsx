@@ -276,10 +276,10 @@ export default function HotessesPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="img-zoom relative h-80 rounded-xl overflow-hidden border border-border order-2 lg:order-1">
               <Image
-                src="/album-cover.jpeg"
+                src="/nous.jpeg"
                 alt="Equalizer Studio — équipe d'hôtesses professionnelles"
                 fill
-                className="object-cover"
+                className="object-cover object-top"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             </div>
@@ -293,7 +293,7 @@ export default function HotessesPage() {
                 className="font-display text-4xl lg:text-5xl font-light text-white mb-6 leading-tight"
                 style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
               >
-                Pourquoi choisir Equalizer Booking ?
+                Pourquoi choisir nos hôtesses?
               </h2>
               <div className="divider-gold w-16 mb-8" aria-hidden="true" />
 
