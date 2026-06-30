@@ -79,41 +79,33 @@ export default function ArticleForm({ mode, itemId }: Props) {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Client-side size check before sending anything
+    if (file.size > 4 * 1024 * 1024) {
+      setError("Image trop lourde. Maximum 4 Mo. Compressez l'image avant de l'uploader.");
+      return;
+    }
+
     setUploading(true);
     setError("");
 
-    // Show local preview immediately while uploading
+    // Show local preview immediately
     const localPreview = URL.createObjectURL(file);
     setPreviewSrc(localPreview);
 
-    try {
-      const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
-      const filename = `uploads/upload-${Date.now()}.${ext}`;
+    const fd = new FormData();
+    fd.append("file", file);
 
-      // On Vercel: use client-side direct upload to bypass the 4.5 MB limit
-      if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
-        const { upload } = await import("@vercel/blob/client");
-        const blob = await upload(filename, file, {
-          access: "public",
-          handleUploadUrl: "/api/admin/upload",
-        });
-        setForm((prev) => ({ ...prev, src: blob.url }));
-        setPreviewSrc(toDisplaySrc(blob.url));
-      } else {
-        // Local dev: send file via FormData
-        const fd = new FormData();
-        fd.append("file", file);
-        const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-        const data = await res.json();
-        if (!res.ok) {
-          setError(data.error ?? "Erreur upload.");
-          return;
-        }
-        setForm((prev) => ({ ...prev, src: data.src }));
-        setPreviewSrc(toDisplaySrc(data.src));
+    try {
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Erreur upload.");
+        return;
       }
-    } catch (err) {
-      setError((err as Error).message ?? "Erreur lors de l'upload.");
+      setForm((prev) => ({ ...prev, src: data.src }));
+      setPreviewSrc(toDisplaySrc(data.src));
+    } catch {
+      setError("Erreur lors de l'upload.");
     } finally {
       setUploading(false);
     }
