@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Proxy for private Vercel Blob images.
-// Usage: /api/img?url=https%3A%2F%2F...blob.vercel-storage.com%2Fuploads%2Fxxx.jpg
+// Proxy for Vercel Blob images (kept for forward-compatibility).
+// With a public store, simply re-fetches the public URL and streams it back.
 export async function GET(request: NextRequest) {
   const blobUrl = request.nextUrl.searchParams.get("url");
 
@@ -9,7 +9,6 @@ export async function GET(request: NextRequest) {
     return new NextResponse("Missing url parameter", { status: 400 });
   }
 
-  // Only allow requests to Vercel Blob storage
   try {
     const parsed = new URL(blobUrl);
     if (!parsed.hostname.endsWith(".blob.vercel-storage.com")) {
@@ -20,19 +19,17 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const { get } = await import("@vercel/blob");
-    const result = await get(blobUrl, { access: "private" });
-
-    if (!result || !result.stream) {
+    const res = await fetch(blobUrl, { cache: "no-store" });
+    if (!res.ok) {
       return new NextResponse("Not found", { status: 404 });
     }
 
-    return new NextResponse(result.stream as unknown as ReadableStream, {
+    const contentType = res.headers.get("Content-Type") ?? "image/jpeg";
+    return new NextResponse(res.body, {
       status: 200,
       headers: {
-        "Content-Type": result.blob.contentType ?? "image/jpeg",
+        "Content-Type": contentType,
         "Cache-Control": "public, max-age=31536000, immutable",
-        "Content-Length": result.blob.size ? String(result.blob.size) : "",
       },
     });
   } catch (err) {

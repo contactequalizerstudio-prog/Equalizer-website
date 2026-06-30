@@ -30,7 +30,7 @@ function writeLocal(items: AlbumItem[]): void {
 
 // ── Vercel Blob (production, requires BLOB_READ_WRITE_TOKEN) ─
 async function readBlob(): Promise<AlbumItem[]> {
-  const { list, get } = await import("@vercel/blob");
+  const { list } = await import("@vercel/blob");
   const { blobs } = await list({ prefix: BLOB_KEY });
   const existing = blobs.find((b) => b.pathname === BLOB_KEY);
 
