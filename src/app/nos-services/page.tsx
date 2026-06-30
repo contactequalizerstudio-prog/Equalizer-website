@@ -59,7 +59,7 @@ const services: {
       "Spots radio & TV",
       "Voix pour présentations",
     ],
-    image: "/album-cover.jpeg",
+    image: "/voice.jpeg",
   },
   {
     id: "evenementiel",

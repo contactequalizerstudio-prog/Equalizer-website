@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { headers } from "next/headers";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -146,32 +147,40 @@ const jsonLd = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") ?? "";
+  const isAdmin = pathname.startsWith("/admin");
+
   return (
     <html
       lang="fr"
       className={`${ibrand.variable} ${nobelUno.variable}`}
     >
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        {!isAdmin && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
+        )}
       </head>
       <body className="bg-background text-foreground antialiased">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:z-50 focus:top-4 focus:left-4 focus:px-4 focus:py-2 focus:bg-gold focus:text-black focus:rounded-md focus:font-medium"
-        >
-          Aller au contenu principal
-        </a>
-        <Navbar />
+        {!isAdmin && (
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:z-50 focus:top-4 focus:left-4 focus:px-4 focus:py-2 focus:bg-gold focus:text-black focus:rounded-md focus:font-medium"
+          >
+            Aller au contenu principal
+          </a>
+        )}
+        {!isAdmin && <Navbar />}
         <main id="main-content">{children}</main>
-        <Footer />
+        {!isAdmin && <Footer />}
       </body>
     </html>
   );

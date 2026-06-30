@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { getAllItems } from "@/lib/album-store";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Portfolio & Album",
@@ -8,123 +11,55 @@ export const metadata: Metadata = {
     "Découvrez le portfolio d'Equalizer Studio : productions photo et vidéo, événements, voix off et bien plus encore à Madagascar.",
 };
 
-const categories = [
-  "Tous",
-  "Photos & Vidéos",
-  "Évènementiel",
-  "Hôtesses",
-  "Team Building",
+const logosRow1 = [
+  { src: "/Logo Partenaire/Airtel_logo-01.png",            alt: "Airtel" },
+  { src: "/Logo Partenaire/Axian.png",                     alt: "Axian" },
+  { src: "/Logo Partenaire/Bledina.jpg",                   alt: "Blédina" },
+  { src: "/Logo Partenaire/Blueline.png",                  alt: "Blueline" },
+  { src: "/Logo Partenaire/BNI.png",                       alt: "BNI" },
+  { src: "/Logo Partenaire/Bred.png",                      alt: "BRED" },
+  { src: "/Logo Partenaire/ccia.png",                      alt: "CCIA" },
+  { src: "/Logo Partenaire/ccifm.jpg",                     alt: "CCIFM" },
+  { src: "/Logo Partenaire/cropped-logo_MBALIK-02.png",    alt: "Mbalik" },
+  { src: "/Logo Partenaire/Delta.png",                     alt: "Delta" },
+  { src: "/Logo Partenaire/escm.png",                      alt: "ESCM" },
+  { src: "/Logo Partenaire/Galana.png",                    alt: "Galana" },
+  { src: "/Logo Partenaire/Gcam.png",                      alt: "Gcam" },
+  { src: "/Logo Partenaire/Guinot-Logo.png",               alt: "Guinot" },
+  { src: "/Logo Partenaire/Inviso.png",                    alt: "Inviso" },
+  { src: "/Logo Partenaire/Jovena.png",                    alt: "Jovena" },
+  { src: "/Logo Partenaire/Landis Automotive.png",         alt: "Landis Automotive" },
+  { src: "/Logo Partenaire/Legrand.png",                   alt: "Legrand" },
+  { src: "/Logo Partenaire/logistique-petroliere-11.jpg",  alt: "Logistique Pétrolière" },
+  { src: "/Logo Partenaire/LOGO NP AKADIN - V005 PNG.png", alt: "NP Akadin" },
 ];
 
-const galleryItems = [
-  {
-    id: 1,
-    src: "/presidence.jpeg",
-    alt: "Equalizer Studio — Production audiovisuelle professionnelle",
-    category: "Photos & Vidéos",
-    title: "Visite d’État du Président Français Emmanuel Macron",
-    event: "Campagne publicitaire",
-  },
-  {
-    id: 2,
-    src: "/salon auto.jpeg",
-    alt: "Equalizer Studio — Événement d'entreprise",
-    category: "Évènementiel",
-    title: "1 an BRED",
-    event: "Salon professionnel",
-  },
-  {
-    id: 3,
-    src: "/lancement.jpeg",
-    alt: "Equalizer Studio — Production musicale et voix off",
-    category: "Photos & Vidéos",
-    title: "Soirée de lancement ‘Jacob Delafon’ du groupe Npakadin",
-    event: "Evenements",
-  },
-  {
-    id: 4,
-    src: "/odity.jpeg",
-    alt: "Equalizer Studio — Happy Mother Day 2024",
-    category: "Évènementiel",
-    title: "Soirée Odity 14 ans",
-    event: "Événement festif",
-  },
-  {
-    id: 5,
-    src: "/salon.jpeg",
-    alt: "Equalizer Studio — Passation de directeurs Logistique Pétrolière",
-    category: "Évènementiel",
-    title: "Salon de l’Auto 2022",
-    event: "Cérémonie officielle",
-  },
-  {
-    id: 6,
-    src: "/dzama.jpeg",
-    alt: "Equalizer Studio — Digitalisation Canon",
-    category: "Évènementiel",
-    title: "Soirée Dzama",
-    event: "Lancement de produit",
-  },
-  {
-    id: 7,
-    src: "/mcb.jpeg",
-    alt: "Equalizer Studio — Lead Your Way Up",
-    category: "Évènementiel",
-    title: " Accompagnement de la MCB et clients VIP",
-    event: "Conférence d'entreprise",
-  },
-  {
-    id: 8,
-    src: "/12.png",
-    alt: "Equalizer Studio — Animation hôtesse",
-    category: "Hôtesses",
-    title: "BNI - Présentation de voeux 2026",
-    event: "Evenements",
-  },
-  {
-    id: 9,
-    src: "/accompagnement.jpeg",
-    alt: "Equalizer Studio — Team building entreprise",
-    category: "Stand",
-    title: " Accompagnement Commercial",
-    event: "Activité d'entreprise",
-  },
+const logosRow2 = [
+  { src: "/Logo Partenaire/logo-batpro-final.webp",        alt: "Batpro" },
+  { src: "/Logo Partenaire/logo-edl-groupe.jpg",           alt: "EDL Groupe" },
+  { src: "/Logo Partenaire/Masoala.png",                   alt: "Masoala" },
+  { src: "/Logo Partenaire/Matechmad.jpeg",                alt: "Matechmad" },
+  { src: "/Logo Partenaire/materauto.png",                 alt: "Materauto" },
+  { src: "/Logo Partenaire/MCB.png",                       alt: "MCB" },
+  { src: "/Logo Partenaire/MCC.jpeg",                      alt: "MCC" },
+  { src: "/Logo Partenaire/MTA.jpeg",                      alt: "MTA" },
+  { src: "/Logo Partenaire/Nicolas_logo.svg_.png",         alt: "Nicolas" },
+  { src: "/Logo Partenaire/odity.png",                     alt: "Odity" },
+  { src: "/Logo Partenaire/ONTM.png",                      alt: "ONTM" },
+  { src: "/Logo Partenaire/Oxxan.jpeg",                    alt: "Oxxan" },
+  { src: "/Logo Partenaire/Presidence.jpeg",               alt: "Présidence" },
+  { src: "/Logo Partenaire/pulse_for_you_logo.jpeg",       alt: "Pulse For You" },
+  { src: "/Logo Partenaire/Ravinala Airports.png",         alt: "Ravinala Airports" },
+  { src: "/Logo Partenaire/San Cristobal.jpeg",            alt: "San Cristobal" },
+  { src: "/Logo Partenaire/Sodirex.png",                   alt: "Sodirex" },
+  { src: "/Logo Partenaire/taf.png",                       alt: "TAF" },
+  { src: "/Logo Partenaire/Total energies.svg",            alt: "TotalEnergies" },
+  { src: "/Logo Partenaire/viseo-logo2.webp",              alt: "Viseo" },
 ];
 
-const highlightedEvents = [
-  {
-    title: "Happy Mother Day 2024",
-    description: "Un événement festif empreint d'émotion et d'élégance.",
-    image: "/first_image.png",
-  },
-  {
-    title: "Salon de l'Auto 2022",
-    description: "Animation et hôtesses pour l'un des plus grands salons de Madagascar.",
-    image: "/second_image.png",
-  },
-  {
-    title: "Passation de Directeurs — Logistique Pétrolière",
-    description: "Cérémonie officielle animée avec professionnalisme et prestige.",
-    image: "/album-cover.jpeg",
-  },
-  {
-    title: "Odity",
-    description: "Production audiovisuelle et voix off pour une campagne nationale.",
-    image: "/first_image.png",
-  },
-  {
-    title: "Digitalisation Canon",
-    description: "Lancement de produit avec animation et présentation dynamique.",
-    image: "/second_image.png",
-  },
-  {
-    title: "Lead Your Way Up",
-    description: "Conférence d'entreprise animée avec énergie et professionnalisme.",
-    image: "/album-cover.jpeg",
-  },
-];
+export default async function AlbumPage() {
+  const galleryItems = getAllItems();
 
-export default function AlbumPage() {
   return (
     <>
       {/* ── Page hero ──────────────────────────────────── */}
@@ -151,7 +86,7 @@ export default function AlbumPage() {
             className="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-white"
             style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
           >
-            Portfolio & Album
+            Portfolio &amp; Album
           </h1>
         </div>
       </section>
@@ -193,98 +128,119 @@ export default function AlbumPage() {
             <div className="divider-gold w-24 mx-auto mt-4" aria-hidden="true" />
           </div>
 
-          {/* Masonry-style grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {galleryItems.map((item, index) => (
-              <article
-                key={item.id}
-                className={`img-zoom relative rounded-xl overflow-hidden border border-border group cursor-pointer ${
-                  index === 0 ? "sm:col-span-2 lg:col-span-1" : ""
-                } ${index === 3 ? "lg:col-span-2" : ""}`}
-              >
-                <div
-                  className={`relative w-full ${
+          {galleryItems.length === 0 ? (
+            <p className="text-center text-muted py-16">
+              Aucune réalisation pour le moment.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {galleryItems.map((item, index) => (
+                <article
+                  key={item.id}
+                  className={`img-zoom relative rounded-xl overflow-hidden border border-border group cursor-pointer ${
+                    index === 0 ? "sm:col-span-2 lg:col-span-1" : ""
+                  } ${index === 3 ? "lg:col-span-2" : ""} ${
                     index === 0 || index === 3 ? "h-80" : "h-64"
                   }`}
                 >
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    <span className="text-gold text-xs tracking-[0.2em] uppercase block mb-1">
-                      {item.category}
-                    </span>
-                    <h3 className="text-white font-semibold text-base">
-                      {item.title}
-                    </h3>
-                    <p className="text-white/60 text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      {item.event}
-                    </p>
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={item.src}
+                      alt={item.alt}
+                      fill
+                      className="object-cover"
+                      style={{ objectPosition: item.objectPosition ?? "center center" }}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      unoptimized
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
+                    <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      <span className="text-gold text-xs tracking-[0.2em] uppercase block mb-1">
+                        {item.category}
+                      </span>
+                      <h3 className="text-white font-semibold text-base">
+                        {item.title}
+                      </h3>
+                      <p className="text-white/60 text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        {item.event}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </article>
-            ))}
-          </div>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* ── Highlighted events ───────────────────────────── */}
+      {/* ── Partenaires / Logo marquee ───────────────────────── */}
       <section
         className="section-padding bg-surface"
-        aria-labelledby="events-heading"
+        aria-labelledby="partners-heading"
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="text-center mb-16">
             <p className="text-gold text-xs tracking-[0.35em] uppercase mb-3">
-              Événements marquants
+              Ils nous ont fait confiance
             </p>
             <h2
-              id="events-heading"
+              id="partners-heading"
               className="font-display text-4xl sm:text-5xl font-light text-white"
               style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
             >
-              Ils nous ont fait confiance
+              Nos Partenaires
             </h2>
             <div className="divider-gold w-24 mx-auto mt-6" aria-hidden="true" />
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {highlightedEvents.map((event) => (
-              <article
-                key={event.title}
-                className="card-hover bg-background border border-border rounded-xl overflow-hidden"
+        {/* Rangée 1 — droite → gauche */}
+        <div className="marquee-row overflow-hidden mb-5" aria-hidden="true">
+          <div className="animate-marquee-rtl flex w-max">
+            {[...logosRow1, ...logosRow1].map((logo, i) => (
+              <div
+                key={i}
+                className="mx-3 shrink-0 flex items-center justify-center rounded-xl bg-white px-4"
+                style={{ width: 148, height: 68 }}
               >
-                <div className="img-zoom relative h-52">
-                  <Image
-                    src={event.image}
-                    alt={`Equalizer Studio — ${event.title}`}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-white font-semibold text-base mb-2 leading-6">
-                    {event.title}
-                  </h3>
-                  <p className="text-muted text-sm leading-6">
-                    {event.description}
-                  </p>
-                </div>
-              </article>
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={120}
+                  height={52}
+                  className="object-contain max-h-full"
+                  unoptimized
+                />
+              </div>
             ))}
           </div>
-
-          <p className="text-center text-muted text-sm italic mt-10">
-            ...et bien d&apos;autres projets à travers Madagascar.
-          </p>
         </div>
+
+        {/* Rangée 2 — gauche → droite */}
+        <div className="marquee-row overflow-hidden" aria-hidden="true">
+          <div className="animate-marquee-ltr flex w-max">
+            {[...logosRow2, ...logosRow2].map((logo, i) => (
+              <div
+                key={i}
+                className="mx-3 shrink-0 flex items-center justify-center rounded-xl bg-white px-4"
+                style={{ width: 148, height: 68 }}
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={120}
+                  height={52}
+                  className="object-contain max-h-full"
+                  unoptimized
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-center text-muted text-sm italic mt-10">
+          ...et bien d&apos;autres clients et partenaires à travers Madagascar.
+        </p>
       </section>
 
       {/* ── CTA ──────────────────────────────────────────── */}
@@ -314,6 +270,3 @@ export default function AlbumPage() {
     </>
   );
 }
-
-
-

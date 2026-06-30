@@ -1,0 +1,83 @@
+[
+  {
+    "id": 1,
+    "src": "/presidence.jpeg",
+    "alt": "Equalizer Studio — Production audiovisuelle professionnelle",
+    "category": "Photos & Vidéos",
+    "title": "Visite d'État du Président Français Emmanuel Macron",
+    "event": "Évènementiel",
+    "objectPosition": "center center"
+  },
+  {
+    "id": 2,
+    "src": "/salon auto.jpeg",
+    "alt": "Equalizer Studio — Événement d'entreprise",
+    "category": "Évènementiel",
+    "title": "1 an BRED",
+    "event": "Salon professionnel",
+    "objectPosition": "center top"
+  },
+  {
+    "id": 3,
+    "src": "/lancement.jpeg",
+    "alt": "Equalizer Studio — Production musicale et voix off",
+    "category": "Photos & Vidéos",
+    "title": "Soirée de lancement 'Jacob Delafon' du groupe Npakadin",
+    "event": "Evenements",
+    "objectPosition": "center top"
+  },
+  {
+    "id": 4,
+    "src": "/odity.jpeg",
+    "alt": "Equalizer Studio — Happy Mother Day 2024",
+    "category": "Évènementiel",
+    "title": "Soirée Odity 14 ans",
+    "event": "Événement festif",
+    "objectPosition": "center center"
+  },
+  {
+    "id": 5,
+    "src": "/salon.jpeg",
+    "alt": "Equalizer Studio — Passation de directeurs Logistique Pétrolière",
+    "category": "Évènementiel",
+    "title": "Salon de l'Auto 2022",
+    "event": "Cérémonie officielle",
+    "objectPosition": "center top"
+  },
+  {
+    "id": 6,
+    "src": "/dzama.jpeg",
+    "alt": "Equalizer Studio — Digitalisation Canon",
+    "category": "Évènementiel",
+    "title": "Soirée Dzama",
+    "event": "Lancement de produit",
+    "objectPosition": "center center"
+  },
+  {
+    "id": 7,
+    "src": "/mcb.jpeg",
+    "alt": "Equalizer Studio — Lead Your Way Up",
+    "category": "Évènementiel",
+    "title": "Accompagnement de la MCB et clients VIP",
+    "event": "Conférence d'entreprise",
+    "objectPosition": "center center"
+  },
+  {
+    "id": 8,
+    "src": "/12.png",
+    "alt": "Equalizer Studio — Animation hôtesse",
+    "category": "Hôtesses",
+    "title": "BNI - Présentation de voeux 2026",
+    "event": "Evenements",
+    "objectPosition": "center center"
+  },
+  {
+    "id": 9,
+    "src": "/accompagnement.jpeg",
+    "alt": "Equalizer Studio — Team building entreprise",
+    "category": "Stand",
+    "title": "Accompagnement Commercial",
+    "event": "Activité d'entreprise",
+    "objectPosition": "center center"
+  }
+]

@@ -68,13 +68,50 @@ const stats = [
   { value: "50+", label: "Clients satisfaits" },
 ];
 
-const clients = [
-  "Happy Mother Day 2024",
-  "Passation de Directeurs — Logistique Pétrolière",
-  "Salon de l'Auto 2022",
-  "Odity",
-  "Digitalisation Canon",
-  "Lead Your Way Up",
+const logosRow1 = [
+  { src: "/Logo Partenaire/Airtel_logo-01.png",            alt: "Airtel" },
+  { src: "/Logo Partenaire/Axian.png",                     alt: "Axian" },
+  { src: "/Logo Partenaire/Bledina.jpg",                   alt: "Blédina" },
+  { src: "/Logo Partenaire/Blueline.png",                  alt: "Blueline" },
+  { src: "/Logo Partenaire/BNI.png",                       alt: "BNI" },
+  { src: "/Logo Partenaire/Bred.png",                      alt: "BRED" },
+  { src: "/Logo Partenaire/ccia.png",                      alt: "CCIA" },
+  { src: "/Logo Partenaire/ccifm.jpg",                     alt: "CCIFM" },
+  { src: "/Logo Partenaire/cropped-logo_MBALIK-02.png",    alt: "Mbalik" },
+  { src: "/Logo Partenaire/Delta.png",                     alt: "Delta" },
+  { src: "/Logo Partenaire/escm.png",                      alt: "ESCM" },
+  { src: "/Logo Partenaire/Galana.png",                    alt: "Galana" },
+  { src: "/Logo Partenaire/Gcam.png",                      alt: "Gcam" },
+  { src: "/Logo Partenaire/Guinot-Logo.png",               alt: "Guinot" },
+  { src: "/Logo Partenaire/Inviso.png",                    alt: "Inviso" },
+  { src: "/Logo Partenaire/Jovena.png",                    alt: "Jovena" },
+  { src: "/Logo Partenaire/Landis Automotive.png",         alt: "Landis Automotive" },
+  { src: "/Logo Partenaire/Legrand.png",                   alt: "Legrand" },
+  { src: "/Logo Partenaire/logistique-petroliere-11.jpg",  alt: "Logistique Pétrolière" },
+  { src: "/Logo Partenaire/LOGO NP AKADIN - V005 PNG.png", alt: "NP Akadin" },
+];
+
+const logosRow2 = [
+  { src: "/Logo Partenaire/logo-batpro-final.webp",        alt: "Batpro" },
+  { src: "/Logo Partenaire/logo-edl-groupe.jpg",           alt: "EDL Groupe" },
+  { src: "/Logo Partenaire/Masoala.png",                   alt: "Masoala" },
+  { src: "/Logo Partenaire/Matechmad.jpeg",                alt: "Matechmad" },
+  { src: "/Logo Partenaire/materauto.png",                 alt: "Materauto" },
+  { src: "/Logo Partenaire/MCB.png",                       alt: "MCB" },
+  { src: "/Logo Partenaire/MCC.jpeg",                      alt: "MCC" },
+  { src: "/Logo Partenaire/MTA.jpeg",                      alt: "MTA" },
+  { src: "/Logo Partenaire/Nicolas_logo.svg_.png",         alt: "Nicolas" },
+  { src: "/Logo Partenaire/odity.png",                     alt: "Odity" },
+  { src: "/Logo Partenaire/ONTM.png",                      alt: "ONTM" },
+  { src: "/Logo Partenaire/Oxxan.jpeg",                    alt: "Oxxan" },
+  { src: "/Logo Partenaire/Presidence.jpeg",               alt: "Présidence" },
+  { src: "/Logo Partenaire/pulse_for_you_logo.jpeg",       alt: "Pulse For You" },
+  { src: "/Logo Partenaire/Ravinala Airports.png",         alt: "Ravinala Airports" },
+  { src: "/Logo Partenaire/San Cristobal.jpeg",            alt: "San Cristobal" },
+  { src: "/Logo Partenaire/Sodirex.png",                   alt: "Sodirex" },
+  { src: "/Logo Partenaire/taf.png",                       alt: "TAF" },
+  { src: "/Logo Partenaire/Total energies.svg",            alt: "TotalEnergies" },
+  { src: "/Logo Partenaire/viseo-logo2.webp",              alt: "Viseo" },
 ];
 
 export default function HomePage() {
@@ -338,11 +375,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Clients ──────────────────────────────────────── */}
+      {/* ── Clients / Logo marquee ───────────────────────────── */}
       <section
         className="section-padding bg-background"
         aria-labelledby="clients-heading"
       >
+        {/* Titre */}
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="text-center mb-16">
             <p className="text-gold text-xs tracking-[0.35em] uppercase mb-3">
@@ -357,29 +395,55 @@ export default function HomePage() {
             </h2>
             <div className="divider-gold w-24 mx-auto mt-6" aria-hidden="true" />
           </div>
-
-          <ul
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 list-none m-0 p-0 mb-8"
-            aria-label="Liste de clients et événements"
-          >
-            {clients.map((client) => (
-              <li
-                key={client}
-                className="flex items-center gap-4 bg-surface border border-border rounded-lg px-6 py-5"
-              >
-                <span
-                  className="w-2 h-2 rounded-full bg-gold shrink-0"
-                  aria-hidden="true"
-                />
-                <span className="text-white/80 text-sm">{client}</span>
-              </li>
-            ))}
-          </ul>
-
-          <p className="text-center text-muted text-sm italic">
-            ...et bien d&apos;autres clients et partenaires à travers Madagascar.
-          </p>
         </div>
+
+        {/* Rangée 1 — défile droite → gauche */}
+        <div className="marquee-row overflow-hidden mb-5" aria-hidden="true">
+          <div className="animate-marquee-rtl flex w-max">
+            {[...logosRow1, ...logosRow1].map((logo, i) => (
+              <div
+                key={i}
+                className="mx-3 shrink-0 flex items-center justify-center rounded-xl bg-white px-4"
+                style={{ width: 148, height: 68 }}
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={120}
+                  height={52}
+                  className="object-contain max-h-full"
+                  unoptimized
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Rangée 2 — défile gauche → droite */}
+        <div className="marquee-row overflow-hidden" aria-hidden="true">
+          <div className="animate-marquee-ltr flex w-max">
+            {[...logosRow2, ...logosRow2].map((logo, i) => (
+              <div
+                key={i}
+                className="mx-3 shrink-0 flex items-center justify-center rounded-xl bg-white px-4"
+                style={{ width: 148, height: 68 }}
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={120}
+                  height={52}
+                  className="object-contain max-h-full"
+                  unoptimized
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-center text-muted text-sm italic mt-10">
+          ...et bien d&apos;autres clients et partenaires à travers Madagascar.
+        </p>
       </section>
 
       {/* ── CTA ──────────────────────────────────────────── */}

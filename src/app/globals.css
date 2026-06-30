@@ -136,6 +136,30 @@ body {
   transform: scale(1.05);
 }
 
+/* ── Marquee / infinite scroll ───────────────────────────── */
+@keyframes marquee-rtl {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes marquee-ltr {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+.animate-marquee-rtl {
+  animation: marquee-rtl 40s linear infinite;
+}
+
+.animate-marquee-ltr {
+  animation: marquee-ltr 40s linear infinite;
+}
+
+.marquee-row:hover .animate-marquee-rtl,
+.marquee-row:hover .animate-marquee-ltr {
+  animation-play-state: paused;
+}
+
 /* ── Focus styles ────────────────────────────────────────── */
 *:focus-visible {
   outline: 2px solid var(--gold);
