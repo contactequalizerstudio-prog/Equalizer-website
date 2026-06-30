@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { AlbumItem } from "@/lib/album-store";
+import { toDisplaySrc } from "@/lib/blob-utils";
 
 export default function AdminDashboard() {
   const [items, setItems] = useState<AlbumItem[]>([]);
@@ -114,7 +115,7 @@ export default function AdminDashboard() {
               {/* Image */}
               <div className="relative h-44 bg-[#132433]">
                 <Image
-                  src={item.src}
+                  src={toDisplaySrc(item.src)}
                   alt={item.alt}
                   fill
                   className="object-cover"

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllItemsAsync, getAllItems } from "@/lib/album-store";
+import { toDisplaySrc } from "@/lib/blob-utils";
 
 export const dynamic = "force-dynamic";
 
@@ -145,7 +146,7 @@ export default async function AlbumPage() {
                 >
                   <div className="relative w-full h-full">
                     <Image
-                      src={item.src}
+                      src={toDisplaySrc(item.src)}
                       alt={item.alt}
                       fill
                       className="object-cover"

@@ -31,10 +31,11 @@ export async function POST(request: Request) {
     const filename = `upload-${Date.now()}.${ext}`;
 
     if (IS_VERCEL && HAS_BLOB_TOKEN) {
-      // ── Vercel: store image in Blob (public, accessible by URL) ──
+      // ── Vercel: store image in Blob as private ────────────────────
+      // Images are served via /api/img proxy route
       const { put } = await import("@vercel/blob");
       const blob = await put(`uploads/${filename}`, file, {
-        access: "public",
+        access: "private",
         addRandomSuffix: false,
       });
       return NextResponse.json({ src: blob.url }, { status: 201 });

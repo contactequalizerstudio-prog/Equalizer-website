@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, FormEvent, ChangeEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { AlbumItem } from "@/lib/album-store";
+import { toDisplaySrc } from "@/lib/blob-utils";
 
 const CATEGORIES = [
   "Photos & Vidéos",
@@ -59,7 +60,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
             event: data.event,
             objectPosition: data.objectPosition ?? "center center",
           });
-          setPreviewSrc(data.src);
+          setPreviewSrc(toDisplaySrc(data.src));
         })
         .catch(() => setError("Impossible de charger l'article."))
         .finally(() => setLoading(false));
@@ -71,7 +72,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
   ) {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    if (name === "src") setPreviewSrc(value);
+    if (name === "src") setPreviewSrc(toDisplaySrc(value));
   }
 
   async function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
@@ -95,7 +96,8 @@ export default function ArticleForm({ mode, itemId }: Props) {
         return;
       }
       setForm((prev) => ({ ...prev, src: data.src }));
-      setPreviewSrc(data.src);
+      // previewSrc goes through proxy for private Vercel Blob URLs
+      setPreviewSrc(toDisplaySrc(data.src));
     } catch {
       setError("Erreur lors de l'upload.");
     } finally {
