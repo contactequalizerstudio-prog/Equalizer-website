@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import initialData from "../data/album.json";
 
 export interface AlbumItem {
   id: number;
@@ -34,8 +35,8 @@ async function readBlob(): Promise<AlbumItem[]> {
   const existing = blobs.find((b) => b.pathname === BLOB_KEY);
 
   if (!existing) {
-    // First run: seed from static data bundled at build time
-    const seed = readLocal();
+    // First run: seed from JSON bundled at build time (safe on Vercel serverless)
+    const seed = initialData as AlbumItem[];
     await writeBlob(seed);
     return seed;
   }

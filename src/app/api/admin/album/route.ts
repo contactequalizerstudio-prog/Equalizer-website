@@ -5,7 +5,8 @@ export async function GET() {
   try {
     const items = await getAllItemsAsync();
     return NextResponse.json(items);
-  } catch {
+  } catch (err) {
+    console.error("[GET /api/admin/album]", err);
     return NextResponse.json({ error: "Erreur lecture données." }, { status: 500 });
   }
 }
@@ -32,7 +33,8 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(newItem, { status: 201 });
-  } catch {
+  } catch (err) {
+    console.error("[POST /api/admin/album]", err);
     return NextResponse.json({ error: "Erreur création article." }, { status: 500 });
   }
 }
