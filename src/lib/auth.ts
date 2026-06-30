@@ -1,16 +1,21 @@
 const COOKIE_NAME = "eq_admin_token";
 const TOKEN_TTL_MS = 8 * 60 * 60 * 1000; // 8 hours
 
-function getSecret(): Uint8Array {
+async function getKey(): Promise<CryptoKey> {
   const secret = process.env.ADMIN_SECRET;
   if (!secret) throw new Error("ADMIN_SECRET env var is missing");
-  return new TextEncoder().encode(secret);
-}
 
-async function getKey(): Promise<CryptoKey> {
+  // Encode to bytes, then extract a plain ArrayBuffer to satisfy TypeScript's
+  // strict BufferSource typing (Uint8Array<ArrayBufferLike> vs ArrayBuffer).
+  const encoded = new TextEncoder().encode(secret);
+  const keyData = encoded.buffer.slice(
+    encoded.byteOffset,
+    encoded.byteOffset + encoded.byteLength
+  ) as ArrayBuffer;
+
   return crypto.subtle.importKey(
     "raw",
-    getSecret(),
+    keyData,
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign", "verify"]
@@ -23,9 +28,16 @@ function bufToHex(buf: ArrayBuffer): string {
     .join("");
 }
 
-function hexToBuf(hex: string): Uint8Array {
+function hexToBuf(hex: string): ArrayBuffer {
   const pairs = hex.match(/.{2}/g) ?? [];
-  return new Uint8Array(pairs.map((b) => parseInt(b, 16)));
+  return new Uint8Array(pairs.map((b) => parseInt(b, 16))).buffer as ArrayBuffer;
+}
+
+function toArrayBuffer(data: Uint8Array): ArrayBuffer {
+  return data.buffer.slice(
+    data.byteOffset,
+    data.byteOffset + data.byteLength
+  ) as ArrayBuffer;
 }
 
 export async function signToken(username: string): Promise<string> {
@@ -36,7 +48,7 @@ export async function signToken(username: string): Promise<string> {
   const sig = await crypto.subtle.sign(
     "HMAC",
     key,
-    new TextEncoder().encode(payload)
+    toArrayBuffer(new TextEncoder().encode(payload))
   );
   return `${payload}.${bufToHex(sig)}`;
 }
@@ -55,7 +67,7 @@ export async function verifyToken(
       "HMAC",
       key,
       hexToBuf(sigHex),
-      new TextEncoder().encode(payload)
+      toArrayBuffer(new TextEncoder().encode(payload))
     );
     if (!valid) return null;
 
