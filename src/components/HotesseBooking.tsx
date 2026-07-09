@@ -2,29 +2,20 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import type { HostessItem } from "@/lib/hostess-store";
+import { toDisplaySrc } from "@/lib/blob-utils";
 
 type BookingStatus = "idle" | "sending" | "sent" | "error";
-
-const HOTESSES = [
-  { name: "Aina",     src: "/hot%C3%AAsse/Aina.png" },
-  { name: "Anifa",    src: "/hot%C3%AAsse/Anifa.png" },
-  { name: "Antema",   src: "/hot%C3%AAsse/Antema.png" },
-  { name: "Fabiola",  src: "/hot%C3%AAsse/Fabiola.png" },
-  { name: "Fy",       src: "/hot%C3%AAsse/Fy.png" },
-  { name: "Jenny",    src: "/hot%C3%AAsse/Jenny.png" },
-  { name: "Kanto",    src: "/hot%C3%AAsse/Kanto.png" },
-  { name: "Liantsoa", src: "/hot%C3%AAsse/Liantsoa.png" },
-  { name: "Nicky",    src: "/hot%C3%AAsse/Nicky.png" },
-  { name: "Ny Tia",   src: "/hot%C3%AAsse/Ny%20Tia.png" },
-  { name: "Oceane",   src: "/hot%C3%AAsse/Oceane.png" },
-  { name: "Tsiky",    src: "/hot%C3%AAsse/Tsiky.png" },
-];
 
 function mod(n: number, m: number) {
   return ((n % m) + m) % m;
 }
 
-export default function HotesseBooking() {
+interface Props {
+  hostesses: HostessItem[];
+}
+
+export default function HotesseBooking({ hostesses }: Props) {
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<string[]>([]);
   const [showForm, setShowForm] = useState(false);
@@ -33,8 +24,16 @@ export default function HotesseBooking() {
     name: "", email: "", phone: "", event: "", eventDate: "", message: "",
   });
 
-  const prev = () => setCurrent((c) => mod(c - 1, HOTESSES.length));
-  const next = () => setCurrent((c) => mod(c + 1, HOTESSES.length));
+  if (hostesses.length === 0) {
+    return (
+      <p className="text-center text-muted py-20">
+        Aucune hôtesse disponible pour le moment.
+      </p>
+    );
+  }
+
+  const prev = () => setCurrent((c) => mod(c - 1, hostesses.length));
+  const next = () => setCurrent((c) => mod(c + 1, hostesses.length));
 
   const toggleSelect = (name: string) => {
     setSelected((s) =>
@@ -61,7 +60,6 @@ export default function HotesseBooking() {
     }
   };
 
-  /* ── positions relatives des cartes ── */
   const getCardStyle = (offset: number): React.CSSProperties => {
     const abs = Math.abs(offset);
     if (abs > 2) return { display: "none" };
@@ -90,7 +88,6 @@ export default function HotesseBooking() {
     };
   };
 
-  /* ── success screen ── */
   if (bookingStatus === "sent") {
     return (
       <div className="flex flex-col items-center justify-center text-center py-20 px-6">
@@ -120,6 +117,8 @@ export default function HotesseBooking() {
     );
   }
 
+  const half = Math.floor(hostesses.length / 2);
+
   return (
     <div className="flex flex-col gap-12">
 
@@ -129,37 +128,32 @@ export default function HotesseBooking() {
           className="relative mx-auto"
           style={{ height: "clamp(340px, 55vw, 520px)", perspective: "900px", transformStyle: "preserve-3d" }}
         >
-          {HOTESSES.map((hotesse, i) => {
-            const offset = mod(i - current + Math.floor(HOTESSES.length / 2), HOTESSES.length) - Math.floor(HOTESSES.length / 2);
+          {hostesses.map((hotesse, i) => {
+            const offset = mod(i - current + half, hostesses.length) - half;
             if (Math.abs(offset) > 2) return null;
             const isActive = offset === 0;
             const isSelectedHotesse = selected.includes(hotesse.name);
 
             return (
               <div
-                key={hotesse.name}
+                key={hotesse.id}
                 style={getCardStyle(offset)}
                 onClick={() => { if (!isActive) setCurrent(i); }}
               >
                 <Image
-                  src={hotesse.src}
+                  src={toDisplaySrc(hotesse.src)}
                   alt={hotesse.name}
                   fill
                   className="object-cover object-top"
                   sizes="320px"
                   priority={isActive}
+                  unoptimized
                 />
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
 
-                {/* Name */}
-                <div className="absolute bottom-4 left-0 right-0 text-center">
+                <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-2.5 px-4 pb-4 pt-8">
                   <p className="text-white font-semibold text-base tracking-wide">{hotesse.name}</p>
-                </div>
-
-                {/* Réserver button — only on active card */}
-                {isActive && (
-                  <div className="absolute top-4 left-0 right-0 flex justify-center">
+                  {isActive && (
                     <button
                       onClick={(e) => { e.stopPropagation(); toggleSelect(hotesse.name); }}
                       className={`px-5 py-2 rounded-full text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-300 ${
@@ -170,10 +164,9 @@ export default function HotesseBooking() {
                     >
                       {isSelectedHotesse ? "✓ Sélectionnée" : "Réserver"}
                     </button>
-                  </div>
-                )}
+                  )}
+                </div>
 
-                {/* Selected badge on non-active cards */}
                 {!isActive && isSelectedHotesse && (
                   <div className="absolute top-3 right-3 w-6 h-6 rounded-full bg-gold flex items-center justify-center">
                     <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
@@ -186,7 +179,6 @@ export default function HotesseBooking() {
           })}
         </div>
 
-        {/* Navigation buttons */}
         <div className="flex items-center justify-center gap-6 mt-6">
           <button
             onClick={prev}
@@ -198,13 +190,12 @@ export default function HotesseBooking() {
             </svg>
           </button>
 
-          {/* Dots */}
           <div className="flex gap-1.5">
-            {HOTESSES.map((_, i) => (
+            {hostesses.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
-                aria-label={`Aller à ${HOTESSES[i].name}`}
+                aria-label={`Aller à ${hostesses[i].name}`}
                 className={`rounded-full transition-all duration-300 ${
                   i === current ? "w-5 h-2 bg-gold" : "w-2 h-2 bg-border hover:bg-muted"
                 }`}
@@ -223,13 +214,11 @@ export default function HotesseBooking() {
           </button>
         </div>
 
-        {/* Counter */}
         <p className="text-center text-muted text-xs tracking-[0.2em] uppercase mt-4">
-          {current + 1} / {HOTESSES.length} — {HOTESSES[current].name}
+          {current + 1} / {hostesses.length} — {hostesses[current].name}
         </p>
       </div>
 
-      {/* ── Sélection récapitulative ── */}
       {selected.length > 0 && (
         <div className="bg-surface border border-gold/30 rounded-2xl p-6 mx-auto w-full max-w-2xl">
           <p className="text-gold text-xs tracking-[0.25em] uppercase mb-3">
@@ -261,7 +250,6 @@ export default function HotesseBooking() {
         </div>
       )}
 
-      {/* ── Formulaire de réservation ── */}
       {showForm && selected.length > 0 && (
         <div className="bg-surface border border-border rounded-2xl p-8 lg:p-10 mx-auto w-full max-w-2xl">
           <p className="text-gold text-xs tracking-[0.25em] uppercase mb-2">Étape finale</p>
@@ -274,7 +262,6 @@ export default function HotesseBooking() {
 
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {/* Nom */}
               <div className="flex flex-col gap-2">
                 <label htmlFor="b-name" className="text-muted text-xs tracking-[0.2em] uppercase">
                   Nom complet <span className="text-gold" aria-hidden="true">*</span>
@@ -284,7 +271,6 @@ export default function HotesseBooking() {
                   className="bg-background border border-border rounded-lg px-4 py-3 text-white text-sm placeholder:text-muted/50 focus:outline-none focus:border-gold transition-colors duration-200" />
               </div>
 
-              {/* Email */}
               <div className="flex flex-col gap-2">
                 <label htmlFor="b-email" className="text-muted text-xs tracking-[0.2em] uppercase">
                   Email <span className="text-gold" aria-hidden="true">*</span>
@@ -294,7 +280,6 @@ export default function HotesseBooking() {
                   className="bg-background border border-border rounded-lg px-4 py-3 text-white text-sm placeholder:text-muted/50 focus:outline-none focus:border-gold transition-colors duration-200" />
               </div>
 
-              {/* Téléphone */}
               <div className="flex flex-col gap-2">
                 <label htmlFor="b-phone" className="text-muted text-xs tracking-[0.2em] uppercase">
                   Téléphone
@@ -304,20 +289,18 @@ export default function HotesseBooking() {
                   className="bg-background border border-border rounded-lg px-4 py-3 text-white text-sm placeholder:text-muted/50 focus:outline-none focus:border-gold transition-colors duration-200" />
               </div>
 
-              {/* Événement */}
               <div className="flex flex-col gap-2">
                 <label htmlFor="b-event" className="text-muted text-xs tracking-[0.2em] uppercase">
-                  Type d'événement
+                  Type d&apos;événement
                 </label>
                 <input id="b-event" name="event" type="text" value={form.event}
                   onChange={handleFormChange} placeholder="Conférence, salon, lancement..."
                   className="bg-background border border-border rounded-lg px-4 py-3 text-white text-sm placeholder:text-muted/50 focus:outline-none focus:border-gold transition-colors duration-200" />
               </div>
 
-              {/* Date */}
               <div className="flex flex-col gap-2 sm:col-span-2">
                 <label htmlFor="b-date" className="text-muted text-xs tracking-[0.2em] uppercase">
-                  Date de l'événement
+                  Date de l&apos;événement
                 </label>
                 <input id="b-date" name="eventDate" type="date" value={form.eventDate}
                   onChange={handleFormChange}
@@ -325,7 +308,6 @@ export default function HotesseBooking() {
               </div>
             </div>
 
-            {/* Message */}
             <div className="flex flex-col gap-2">
               <label htmlFor="b-message" className="text-muted text-xs tracking-[0.2em] uppercase">
                 Message complémentaire

@@ -5,8 +5,10 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 const navItems = [
-  { href: "/admin", label: "Tableau de bord", icon: "⊞" },
+  { href: "/admin", label: "Album", icon: "⊞" },
   { href: "/admin/articles/nouveau", label: "Nouvel article", icon: "+" },
+  { href: "/admin/hotesses", label: "Hôtesses", icon: "◇" },
+  { href: "/admin/hotesses/nouveau", label: "Nouvelle hôtesse", icon: "+" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

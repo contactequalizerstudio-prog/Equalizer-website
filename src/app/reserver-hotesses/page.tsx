@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import HotesseBooking from "@/components/HotesseBooking";
+import { getAllHostessesAsync, getAllHostesses } from "@/lib/hostess-store";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Réserver des Hôtesses",
@@ -7,10 +10,13 @@ export const metadata: Metadata = {
     "Choisissez et réservez vos hôtesses et animatrices Equalizer Studio pour votre événement à Madagascar.",
 };
 
-export default function ReserverHotessesPage() {
+export default async function ReserverHotessesPage() {
+  const hostesses = process.env.VERCEL
+    ? await getAllHostessesAsync()
+    : getAllHostesses();
+
   return (
     <>
-      {/* ── Hero ── */}
       <section className="bg-background border-b border-border py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 text-center">
           <p className="text-gold text-xs tracking-[0.35em] uppercase mb-4">
@@ -29,10 +35,9 @@ export default function ReserverHotessesPage() {
         </div>
       </section>
 
-      {/* ── Booking ── */}
       <section className="section-padding bg-background">
         <div className="max-w-4xl mx-auto px-6 lg:px-10">
-          <HotesseBooking />
+          <HotesseBooking hostesses={hostesses} />
         </div>
       </section>
     </>
