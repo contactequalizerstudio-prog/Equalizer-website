@@ -1,14 +1,110 @@
 [
-  { "id": 1,  "name": "Aina",     "src": "/hotêsse/Aina.png" },
-  { "id": 2,  "name": "Anifa",    "src": "/hotêsse/Anifa.png" },
-  { "id": 3,  "name": "Antema",   "src": "/hotêsse/Antema.png" },
-  { "id": 4,  "name": "Fabiola",  "src": "/hotêsse/Fabiola.png" },
-  { "id": 5,  "name": "Fy",       "src": "/hotêsse/Fy.png" },
-  { "id": 6,  "name": "Jenny",    "src": "/hotêsse/Jenny.png" },
-  { "id": 7,  "name": "Kanto",    "src": "/hotêsse/Kanto.png" },
-  { "id": 8,  "name": "Liantsoa", "src": "/hotêsse/Liantsoa.png" },
-  { "id": 9,  "name": "Nicky",    "src": "/hotêsse/Nicky.png" },
-  { "id": 10, "name": "Ny Tia",   "src": "/hotêsse/Ny Tia.png" },
-  { "id": 11, "name": "Oceane",   "src": "/hotêsse/Oceane.png" },
-  { "id": 12, "name": "Tsiky",    "src": "/hotêsse/Tsiky.png" }
+  {
+    "id": 1,
+    "name": "Aina",
+    "src": "/hotêsse/Aina.png",
+    "height": "",
+    "frenchLevel": 0,
+    "englishLevel": 0,
+    "studies": ""
+  },
+  {
+    "id": 2,
+    "name": "Anifa",
+    "src": "/hotêsse/Anifa.png",
+    "height": "1m50",
+    "frenchLevel": 3,
+    "englishLevel": 4,
+    "studies": "Test"
+  },
+  {
+    "id": 3,
+    "name": "Antema",
+    "src": "/hotêsse/Antema.png",
+    "height": "",
+    "frenchLevel": 0,
+    "englishLevel": 0,
+    "studies": ""
+  },
+  {
+    "id": 4,
+    "name": "Fabiola",
+    "src": "/hotêsse/Fabiola.png",
+    "height": "",
+    "frenchLevel": 0,
+    "englishLevel": 0,
+    "studies": ""
+  },
+  {
+    "id": 5,
+    "name": "Fy",
+    "src": "/hotêsse/Fy.png",
+    "height": "",
+    "frenchLevel": 0,
+    "englishLevel": 0,
+    "studies": ""
+  },
+  {
+    "id": 6,
+    "name": "Jenny",
+    "src": "/hotêsse/Jenny.png",
+    "height": "",
+    "frenchLevel": 0,
+    "englishLevel": 0,
+    "studies": ""
+  },
+  {
+    "id": 7,
+    "name": "Kanto",
+    "src": "/hotêsse/Kanto.png",
+    "height": "",
+    "frenchLevel": 0,
+    "englishLevel": 0,
+    "studies": ""
+  },
+  {
+    "id": 8,
+    "name": "Liantsoa",
+    "src": "/hotêsse/Liantsoa.png",
+    "height": "",
+    "frenchLevel": 0,
+    "englishLevel": 0,
+    "studies": ""
+  },
+  {
+    "id": 9,
+    "name": "Nicky",
+    "src": "/hotêsse/Nicky.png",
+    "height": "",
+    "frenchLevel": 0,
+    "englishLevel": 0,
+    "studies": ""
+  },
+  {
+    "id": 10,
+    "name": "Ny Tia",
+    "src": "/hotêsse/Ny Tia.png",
+    "height": "",
+    "frenchLevel": 0,
+    "englishLevel": 0,
+    "studies": ""
+  },
+  {
+    "id": 11,
+    "name": "Oceane",
+    "src": "/hotêsse/Oceane.png",
+    "height": "",
+    "frenchLevel": 0,
+    "englishLevel": 0,
+    "studies": ""
+  },
+  {
+    "id": 12,
+    "name": "Tsiky",
+    "src": "/hotêsse/Tsiky.png",
+    "height": "",
+    "frenchLevel": 0,
+    "englishLevel": 0,
+    "studies": ""
+  }
 ]

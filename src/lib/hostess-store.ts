@@ -6,6 +6,14 @@ export interface HostessItem {
   id: number;
   name: string;
   src: string;
+  /** Height, e.g. "1m68" */
+  height?: string;
+  /** French level 0–5 */
+  frenchLevel?: number;
+  /** English level 0–5 */
+  englishLevel?: number;
+  /** Studies / education */
+  studies?: string;
 }
 
 const LOCAL_FILE = path.join(process.cwd(), "src", "data", "hostesses.json");

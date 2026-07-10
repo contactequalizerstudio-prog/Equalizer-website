@@ -15,8 +15,26 @@ interface Props {
   hostesses: HostessItem[];
 }
 
+function Stars({ level }: { level: number }) {
+  const n = Math.min(5, Math.max(0, level));
+  return (
+    <div className="flex gap-0.5" aria-label={`${n} sur 5`}>
+      {[1, 2, 3, 4, 5].map((i) => (
+        <span
+          key={i}
+          className={`text-sm leading-none ${i <= n ? "text-gold" : "text-white/20"}`}
+          aria-hidden="true"
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export default function HotesseBooking({ hostesses }: Props) {
   const [current, setCurrent] = useState(0);
+  const [flippedId, setFlippedId] = useState<number | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [bookingStatus, setBookingStatus] = useState<BookingStatus>("idle");
@@ -32,8 +50,12 @@ export default function HotesseBooking({ hostesses }: Props) {
     );
   }
 
-  const prev = () => setCurrent((c) => mod(c - 1, hostesses.length));
-  const next = () => setCurrent((c) => mod(c + 1, hostesses.length));
+  const goTo = (index: number) => {
+    setFlippedId(null);
+    setCurrent(index);
+  };
+  const prev = () => goTo(mod(current - 1, hostesses.length));
+  const next = () => goTo(mod(current + 1, hostesses.length));
 
   const toggleSelect = (name: string) => {
     setSelected((s) =>
@@ -82,9 +104,9 @@ export default function HotesseBooking({ hostesses }: Props) {
       transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
       zIndex: 10 - abs,
       borderRadius: "16px",
-      overflow: "hidden",
       cursor: offset === 0 ? "default" : "pointer",
       boxShadow: offset === 0 ? "0 32px 80px rgba(0,0,0,0.6)" : "none",
+      perspective: "1200px",
     };
   };
 
@@ -133,47 +155,145 @@ export default function HotesseBooking({ hostesses }: Props) {
             if (Math.abs(offset) > 2) return null;
             const isActive = offset === 0;
             const isSelectedHotesse = selected.includes(hotesse.name);
+            const isFlipped = flippedId === hotesse.id;
 
             return (
               <div
                 key={hotesse.id}
                 style={getCardStyle(offset)}
-                onClick={() => { if (!isActive) setCurrent(i); }}
+                onClick={() => { if (!isActive) goTo(i); }}
               >
-                <Image
-                  src={toDisplaySrc(hotesse.src)}
-                  alt={hotesse.name}
-                  fill
-                  className="object-cover object-top"
-                  sizes="320px"
-                  priority={isActive}
-                  unoptimized
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                {/* Flip inner — poker-card style rotateY */}
+                <div
+                  className="relative w-full h-full"
+                  style={{
+                    transformStyle: "preserve-3d",
+                    transition: "transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1)",
+                    transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+                  }}
+                >
+                  {/* ── Face avant ── */}
+                  <div
+                    className="absolute inset-0 rounded-2xl overflow-hidden"
+                    style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
+                  >
+                    <Image
+                      src={toDisplaySrc(hotesse.src)}
+                      alt={hotesse.name}
+                      fill
+                      className="object-cover object-top"
+                      sizes="320px"
+                      priority={isActive}
+                      unoptimized
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
 
-                <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-2.5 px-4 pb-4 pt-8">
-                  <p className="text-white font-semibold text-base tracking-wide">{hotesse.name}</p>
-                  {isActive && (
-                    <button
-                      onClick={(e) => { e.stopPropagation(); toggleSelect(hotesse.name); }}
-                      className={`px-5 py-2 rounded-full text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-300 ${
-                        isSelectedHotesse
-                          ? "bg-gold text-black shadow-[0_0_20px_rgba(14,142,196,0.6)]"
-                          : "bg-black/60 text-white border border-white/40 hover:bg-gold hover:text-black hover:border-gold"
-                      }`}
-                    >
-                      {isSelectedHotesse ? "✓ Sélectionnée" : "Réserver"}
-                    </button>
-                  )}
-                </div>
+                    <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-2.5 px-4 pb-4 pt-8">
+                      <p className="text-white font-semibold text-base tracking-wide">{hotesse.name}</p>
+                      {isActive && (
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setFlippedId(hotesse.id);
+                            }}
+                            className="px-5 py-2 rounded-full text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-300 bg-black/60 text-white border border-white/40 hover:border-gold hover:text-gold"
+                          >
+                            Info
+                          </button>
+                          <button
+                            onClick={(e) => { e.stopPropagation(); toggleSelect(hotesse.name); }}
+                            className={`px-5 py-2 rounded-full text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-300 ${
+                              isSelectedHotesse
+                                ? "bg-gold text-black shadow-[0_0_20px_rgba(14,142,196,0.6)]"
+                                : "bg-black/60 text-white border border-white/40 hover:bg-gold hover:text-black hover:border-gold"
+                            }`}
+                          >
+                            {isSelectedHotesse ? "✓ Sélectionnée" : "Réserver"}
+                          </button>
+                        </div>
+                      )}
+                    </div>
 
-                {!isActive && isSelectedHotesse && (
-                  <div className="absolute top-3 right-3 w-6 h-6 rounded-full bg-gold flex items-center justify-center">
-                    <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-                      <path d="M1 5l3 3 7-7" stroke="#000" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    {!isActive && isSelectedHotesse && (
+                      <div className="absolute top-3 right-3 w-6 h-6 rounded-full bg-gold flex items-center justify-center">
+                        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+                          <path d="M1 5l3 3 7-7" stroke="#000" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </div>
+                    )}
                   </div>
-                )}
+
+                  {/* ── Face arrière (infos) ── */}
+                  <div
+                    className="absolute inset-0 rounded-2xl overflow-hidden flex flex-col bg-[#0d1820] border border-gold/30"
+                    style={{
+                      backfaceVisibility: "hidden",
+                      WebkitBackfaceVisibility: "hidden",
+                      transform: "rotateY(180deg)",
+                    }}
+                  >
+                    <div className="flex-1 flex flex-col justify-center px-6 py-5 gap-5">
+                      <p className="text-gold text-xs tracking-[0.3em] uppercase text-center">
+                        {hotesse.name}
+                      </p>
+
+                      <div className="space-y-4">
+                        <div>
+                          <p className="text-muted text-[10px] tracking-[0.2em] uppercase mb-1">Taille</p>
+                          <p className="text-white text-sm font-medium">
+                            {hotesse.height?.trim() ? hotesse.height : "—"}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="text-muted text-[10px] tracking-[0.2em] uppercase mb-1.5">
+                            Niveau de français
+                          </p>
+                          <Stars level={hotesse.frenchLevel ?? 0} />
+                        </div>
+
+                        <div>
+                          <p className="text-muted text-[10px] tracking-[0.2em] uppercase mb-1.5">
+                            Niveau anglais
+                          </p>
+                          <Stars level={hotesse.englishLevel ?? 0} />
+                        </div>
+
+                        <div>
+                          <p className="text-muted text-[10px] tracking-[0.2em] uppercase mb-1">Études</p>
+                          <p className="text-white text-sm font-medium leading-snug">
+                            {hotesse.studies?.trim() ? hotesse.studies : "—"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {isActive && (
+                      <div className="px-4 pb-4 flex gap-2">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setFlippedId(null);
+                          }}
+                          className="flex-1 py-2 rounded-full text-xs font-semibold tracking-[0.15em] uppercase bg-black/40 text-white border border-white/30 hover:border-gold hover:text-gold transition-all"
+                        >
+                          Retour
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); toggleSelect(hotesse.name); }}
+                          className={`flex-1 py-2 rounded-full text-xs font-semibold tracking-[0.15em] uppercase transition-all ${
+                            isSelectedHotesse
+                              ? "bg-gold text-black"
+                              : "bg-gold/90 text-black hover:bg-gold"
+                          }`}
+                        >
+                          {isSelectedHotesse ? "✓ OK" : "Réserver"}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             );
           })}
@@ -194,7 +314,7 @@ export default function HotesseBooking({ hostesses }: Props) {
             {hostesses.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setCurrent(i)}
+                onClick={() => goTo(i)}
                 aria-label={`Aller à ${hostesses[i].name}`}
                 className={`rounded-full transition-all duration-300 ${
                   i === current ? "w-5 h-2 bg-gold" : "w-2 h-2 bg-border hover:bg-muted"

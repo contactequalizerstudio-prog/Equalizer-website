@@ -11,6 +11,15 @@ interface Props {
   itemId?: number;
 }
 
+const emptyForm: Omit<HostessItem, "id"> = {
+  name: "",
+  src: "",
+  height: "",
+  frenchLevel: 0,
+  englishLevel: 0,
+  studies: "",
+};
+
 export default function HostessForm({ mode, itemId }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -20,11 +29,7 @@ export default function HostessForm({ mode, itemId }: Props) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const [form, setForm] = useState<Omit<HostessItem, "id">>({
-    name: "",
-    src: "",
-  });
-
+  const [form, setForm] = useState<Omit<HostessItem, "id">>(emptyForm);
   const [previewSrc, setPreviewSrc] = useState("");
 
   useEffect(() => {
@@ -32,7 +37,14 @@ export default function HostessForm({ mode, itemId }: Props) {
       fetch(`/api/admin/hostess/${itemId}`)
         .then((r) => r.json())
         .then((data: HostessItem) => {
-          setForm({ name: data.name, src: data.src });
+          setForm({
+            name: data.name,
+            src: data.src,
+            height: data.height ?? "",
+            frenchLevel: data.frenchLevel ?? 0,
+            englishLevel: data.englishLevel ?? 0,
+            studies: data.studies ?? "",
+          });
           setPreviewSrc(toDisplaySrc(data.src));
         })
         .catch(() => setError("Impossible de charger l'hôtesse."))
@@ -40,9 +52,15 @@ export default function HostessForm({ mode, itemId }: Props) {
     }
   }, [mode, itemId]);
 
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+  function handleChange(
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    if (name === "frenchLevel" || name === "englishLevel") {
+      setForm((prev) => ({ ...prev, [name]: Number(value) }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
     if (name === "src") setPreviewSrc(toDisplaySrc(value));
   }
 
@@ -207,6 +225,87 @@ export default function HostessForm({ mode, itemId }: Props) {
             required
             placeholder="ex: Aina"
             className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="height"
+            className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+          >
+            Taille
+          </label>
+          <input
+            id="height"
+            name="height"
+            type="text"
+            value={form.height ?? ""}
+            onChange={handleChange}
+            placeholder="ex: 1m68"
+            className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors placeholder:text-[#3a5a6a]"
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label
+              htmlFor="frenchLevel"
+              className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+            >
+              Niveau français
+            </label>
+            <select
+              id="frenchLevel"
+              name="frenchLevel"
+              value={form.frenchLevel ?? 0}
+              onChange={handleChange}
+              className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors"
+            >
+              {[0, 1, 2, 3, 4, 5].map((n) => (
+                <option key={n} value={n}>
+                  {n} / 5
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label
+              htmlFor="englishLevel"
+              className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+            >
+              Niveau anglais
+            </label>
+            <select
+              id="englishLevel"
+              name="englishLevel"
+              value={form.englishLevel ?? 0}
+              onChange={handleChange}
+              className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors"
+            >
+              {[0, 1, 2, 3, 4, 5].map((n) => (
+                <option key={n} value={n}>
+                  {n} / 5
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label
+            htmlFor="studies"
+            className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+          >
+            Études
+          </label>
+          <input
+            id="studies"
+            name="studies"
+            type="text"
+            value={form.studies ?? ""}
+            onChange={handleChange}
+            placeholder="ex: Licence Marketing"
+            className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors placeholder:text-[#3a5a6a]"
           />
         </div>
 
