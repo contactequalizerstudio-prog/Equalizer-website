@@ -101,6 +101,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Equalizer Studio" }],
   creator: "Equalizer Studio",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/apple-icon.png",
+  },
   openGraph: {
     type: "website",
     locale: "fr_MG",
@@ -110,9 +115,9 @@ export const metadata: Metadata = {
       "Votre partenaire de confiance en communication professionnelle à Madagascar. Photos, vidéos, voix off, évènementiel et plus.",
     images: [
       {
-        url: "/logo-light.jpeg",
-        width: 800,
-        height: 600,
+        url: "/logo-dark.jpeg",
+        width: 1024,
+        height: 878,
         alt: "Equalizer Studio — Agence de Communication",
       },
     ],
@@ -122,7 +127,7 @@ export const metadata: Metadata = {
     title: "Equalizer Studio | Agence de Communication",
     description:
       "Votre partenaire en communication professionnelle à Madagascar.",
-    images: ["/logo-light.jpeg"],
+    images: ["/logo-dark.jpeg"],
   },
   robots: {
     index: true,
@@ -140,6 +145,9 @@ const jsonLd = {
   name: "Equalizer Studio",
   description:
     "Agence de communication professionnelle à Madagascar. Photos, vidéos, voix off, évènementiel, MC, hôtesses et team building.",
+  url: "https://equalizerstudio.mg",
+  logo: "https://equalizerstudio.mg/logo-dark.jpeg",
+  image: "https://equalizerstudio.mg/logo-dark.jpeg",
   email: "contact.equalizerstudio@gmail.com",
   telephone: ["+261346493198", "+261322540773"],
   address: {
