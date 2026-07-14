@@ -129,6 +129,9 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
+  verification: {
+    google: "SzVAsO9qIH6b2GvwaQNrq7M8JFgs_B_doUiPqi7Kb5o",
+  },
 };
 
 const jsonLd = {
