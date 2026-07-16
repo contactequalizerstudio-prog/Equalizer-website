@@ -337,7 +337,7 @@ export default function HomePage() {
             {/* Album cover */}
             <div className="img-zoom relative h-72 rounded-xl overflow-hidden border border-border">
               <Image
-                src="/album-cover.jpeg"
+                src="/voice.jpeg"
                 alt="Equalizer Studio — Album cover"
                 fill
                 className="object-cover"
