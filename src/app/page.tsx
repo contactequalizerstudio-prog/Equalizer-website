@@ -342,6 +342,7 @@ export default function HomePage() {
                 fill
                 className="object-cover"
               />
+              
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
               <div className="absolute bottom-6 left-6">
                 <span className="text-gold text-xs tracking-[0.2em] uppercase">Médias</span>
