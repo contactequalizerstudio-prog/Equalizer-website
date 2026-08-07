@@ -14,6 +14,12 @@ export interface HostessItem {
   englishLevel?: number;
   /** Studies / education */
   studies?: string;
+  /** Admin-only: phone number (never shown on public site) */
+  phone?: string;
+  /** Admin-only: address (never shown on public site) */
+  address?: string;
+  /** Admin-only: internal comment/notes (never shown on public site) */
+  comment?: string;
 }
 
 const LOCAL_FILE = path.join(process.cwd(), "src", "data", "hostesses.json");

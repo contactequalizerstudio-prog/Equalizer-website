@@ -18,6 +18,9 @@ const emptyForm: Omit<HostessItem, "id"> = {
   frenchLevel: 0,
   englishLevel: 0,
   studies: "",
+  phone: "",
+  address: "",
+  comment: "",
 };
 
 export default function HostessForm({ mode, itemId }: Props) {
@@ -44,6 +47,9 @@ export default function HostessForm({ mode, itemId }: Props) {
             frenchLevel: data.frenchLevel ?? 0,
             englishLevel: data.englishLevel ?? 0,
             studies: data.studies ?? "",
+            phone: data.phone ?? "",
+            address: data.address ?? "",
+            comment: data.comment ?? "",
           });
           setPreviewSrc(toDisplaySrc(data.src));
         })
@@ -307,6 +313,70 @@ export default function HostessForm({ mode, itemId }: Props) {
             placeholder="ex: Licence Marketing"
             className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors placeholder:text-[#3a5a6a]"
           />
+        </div>
+
+        {/* ── Infos internes (admin uniquement) ── */}
+        <div className="rounded-xl border border-[#1a2e3a] bg-[#0d1820]/60 p-5 space-y-5">
+          <div className="flex items-center gap-2">
+            <span className="text-[#0e8ec4] text-sm">🔒</span>
+            <p className="text-[#7a9aac] text-xs tracking-widest uppercase">
+              Infos internes — non affichées sur le site
+            </p>
+          </div>
+
+          <div>
+            <label
+              htmlFor="phone"
+              className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+            >
+              Numéro
+            </label>
+            <input
+              id="phone"
+              name="phone"
+              type="text"
+              value={form.phone ?? ""}
+              onChange={handleChange}
+              placeholder="ex: +261 34 00 000 00"
+              className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors placeholder:text-[#3a5a6a]"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="address"
+              className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+            >
+              Adresse
+            </label>
+            <input
+              id="address"
+              name="address"
+              type="text"
+              value={form.address ?? ""}
+              onChange={handleChange}
+              placeholder="ex: Lot II A Antananarivo"
+              className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors placeholder:text-[#3a5a6a]"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="comment"
+              className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+            >
+              Commentaire
+            </label>
+            <textarea
+              id="comment"
+              name="comment"
+              rows={3}
+              value={form.comment ?? ""}
+              onChange={handleChange}
+              placeholder="Notes internes sur l'hôtesse…"
+              className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors placeholder:text-[#3a5a6a] resize-none"
+            />
+          </div>
         </div>
 
         {error && (

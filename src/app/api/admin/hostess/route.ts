@@ -14,7 +14,17 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    const { name, src, height, frenchLevel, englishLevel, studies } = data;
+    const {
+      name,
+      src,
+      height,
+      frenchLevel,
+      englishLevel,
+      studies,
+      phone,
+      address,
+      comment,
+    } = data;
 
     if (!name || !src) {
       return NextResponse.json(
@@ -25,14 +35,18 @@ export async function POST(request: Request) {
 
     const clampLevel = (n: unknown) =>
       Math.min(5, Math.max(0, Number(n) || 0));
+    const asStr = (v: unknown) => (typeof v === "string" ? v : "");
 
     const newItem = await createHostessAsync({
       name,
       src,
-      height: typeof height === "string" ? height : "",
+      height: asStr(height),
       frenchLevel: clampLevel(frenchLevel),
       englishLevel: clampLevel(englishLevel),
-      studies: typeof studies === "string" ? studies : "",
+      studies: asStr(studies),
+      phone: asStr(phone),
+      address: asStr(address),
+      comment: asStr(comment),
     });
     return NextResponse.json(newItem, { status: 201 });
   } catch (err) {
