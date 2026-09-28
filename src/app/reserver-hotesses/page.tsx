@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import HotesseBooking from "@/components/HotesseBooking";
+import { stripPrivateHostessFields } from "@/lib/hostess-privacy";
 import { getAllHostessesAsync, getAllHostesses } from "@/lib/hostess-store";
 
 export const dynamic = "force-dynamic";
@@ -11,9 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ReserverHotessesPage() {
-  const hostesses = process.env.VERCEL
+  const records = process.env.VERCEL
     ? await getAllHostessesAsync()
     : getAllHostesses();
+  const hostesses = records.map(stripPrivateHostessFields);
 
   return (
     <>
