@@ -153,11 +153,10 @@ export default function CandidatureForm() {
         <div className="w-20 h-20 rounded-full bg-gold/10 border border-gold flex items-center justify-center mb-6">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              stroke="#0e8ec4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              stroke="#6bdde3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <h2 className="font-display text-3xl font-light text-white mb-3"
-          style={{ fontFamily: "var(--font-ibrand), sans-serif" }}>
+        <h2 className="font-display text-3xl font-bold tracking-tight text-white mb-3">
           Candidature envoyée !
         </h2>
         <p className="text-muted text-sm leading-7 max-w-sm mb-2">
@@ -178,7 +177,7 @@ export default function CandidatureForm() {
         {[1, 2].map((s) => (
           <div key={s} className="flex items-center gap-3">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-colors duration-300 ${
-              step >= s ? "bg-gold text-black" : "bg-surface border border-border text-muted"
+              step >= s ? "bg-gold text-background" : "bg-surface border border-border text-muted"
             }`}>
               {s}
             </div>
@@ -296,7 +295,7 @@ export default function CandidatureForm() {
 
           <button
             type="submit"
-            className="w-full py-4 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)] mt-2"
+            className="w-full py-4 bg-gold text-background font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(107,221,227,0.4)] mt-2"
           >
             Continuer — Section 2 →
           </button>
@@ -368,7 +367,7 @@ export default function CandidatureForm() {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="flex-1 flex items-center justify-center gap-2 py-4 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)] disabled:opacity-60 disabled:cursor-not-allowed"
+              className="flex-1 flex items-center justify-center gap-2 py-4 bg-gold text-background font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(107,221,227,0.4)] disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {status === "sending" ? (
                 <>

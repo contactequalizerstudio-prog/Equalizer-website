@@ -65,7 +65,7 @@ export default function ContactPage() {
             aria-hidden="true"
           />
           <div
-            className="absolute inset-0 bg-gradient-to-b from-black/50 to-black"
+            className="absolute inset-0 bg-gradient-to-b from-black/50 to-background"
             aria-hidden="true"
           />
         </div>
@@ -74,8 +74,7 @@ export default function ContactPage() {
             Parlons de votre projet
           </p>
           <h1
-            className="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-white"
-            style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+            className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white"
           >
             Contactez-nous
           </h1>
@@ -93,8 +92,7 @@ export default function ContactPage() {
                   Nous joindre
                 </p>
                 <h2
-                  className="font-display text-3xl lg:text-4xl font-light text-white mb-4 leading-tight"
-                  style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+                  className="font-display text-3xl lg:text-4xl font-bold tracking-tight text-white mb-4 leading-tight"
                 >
                   Discutons de vos besoins
                 </h2>
@@ -180,8 +178,7 @@ export default function ContactPage() {
               Où nous trouver
             </p>
             <h2
-              className="font-display text-3xl sm:text-4xl font-light text-white"
-              style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+              className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white"
             >
               Notre Localisation
             </h2>
@@ -199,7 +196,7 @@ export default function ContactPage() {
                 >
                   <path
                     d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"
-                    fill="#0e8ec4"
+                    fill="#6bdde3"
                   />
                 </svg>
               </div>
@@ -244,8 +241,7 @@ export default function ContactPage() {
                 Besoin urgent ?
               </p>
               <h3
-                className="font-display text-2xl font-light text-white"
-                style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+                className="font-display text-2xl font-bold tracking-tight text-white"
               >
                 Appelez-nous directement
               </h3>
@@ -289,7 +285,7 @@ export default function ContactPage() {
               </a>
               <a
                 href="mailto:contact.equalizerstudio@gmail.com"
-                className="flex items-center gap-3 px-6 py-3 bg-gold text-black font-semibold text-sm rounded-full hover:bg-gold-light transition-all duration-300"
+                className="flex items-center gap-3 px-6 py-3 bg-gold text-background font-semibold text-sm rounded-full hover:bg-gold-light transition-all duration-300"
               >
                 <svg
                   width="16"

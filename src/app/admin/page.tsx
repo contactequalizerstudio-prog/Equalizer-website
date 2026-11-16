@@ -73,13 +73,13 @@ export default function AdminDashboard() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-white text-2xl font-semibold">Tableau de bord</h1>
-          <p className="text-[#7a9aac] text-sm mt-1">
+          <p className="text-[#9dbabf] text-sm mt-1">
             {items.length} article{items.length !== 1 ? "s" : ""} dans l&apos;album
           </p>
         </div>
         <Link
           href="/admin/articles/nouveau"
-          className="inline-flex items-center gap-2 bg-[#0e8ec4] hover:bg-[#0a7aaa] text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
+          className="inline-flex items-center gap-2 bg-[#6bdde3] hover:bg-[#8be8ed] text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
         >
           <span className="text-lg leading-none">+</span> Nouvel article
         </Link>
@@ -91,16 +91,16 @@ export default function AdminDashboard() {
           {Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
-              className="bg-[#0d1820] border border-[#1a2e3a] rounded-xl h-64 animate-pulse"
+              className="bg-[#0c3239] border border-[#1b4a52] rounded-xl h-64 animate-pulse"
             />
           ))}
         </div>
       ) : items.length === 0 ? (
-        <div className="text-center py-24 text-[#7a9aac]">
+        <div className="text-center py-24 text-[#9dbabf]">
           <p className="text-lg">Aucun article pour l&apos;instant.</p>
           <Link
             href="/admin/articles/nouveau"
-            className="inline-block mt-4 text-[#0e8ec4] hover:underline text-sm"
+            className="inline-block mt-4 text-[#6bdde3] hover:underline text-sm"
           >
             Créer le premier article →
           </Link>
@@ -110,10 +110,10 @@ export default function AdminDashboard() {
           {items.map((item) => (
             <article
               key={item.id}
-              className="bg-[#0d1820] border border-[#1a2e3a] rounded-xl overflow-hidden flex flex-col"
+              className="bg-[#0c3239] border border-[#1b4a52] rounded-xl overflow-hidden flex flex-col"
             >
               {/* Image */}
-              <div className="relative h-44 bg-[#132433]">
+              <div className="relative h-44 bg-[#12434b]">
                 <Image
                   src={toDisplaySrc(item.src)}
                   alt={item.alt}
@@ -123,7 +123,7 @@ export default function AdminDashboard() {
                   unoptimized
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <span className="absolute top-3 left-3 bg-[#0e8ec4]/90 text-white text-xs px-2 py-1 rounded-full">
+                <span className="absolute top-3 left-3 bg-[#6bdde3]/90 text-white text-xs px-2 py-1 rounded-full">
                   {item.category}
                 </span>
               </div>
@@ -133,14 +133,14 @@ export default function AdminDashboard() {
                 <h3 className="text-white font-semibold text-sm leading-snug mb-1 line-clamp-2">
                   {item.title}
                 </h3>
-                <p className="text-[#7a9aac] text-xs">{item.event}</p>
+                <p className="text-[#9dbabf] text-xs">{item.event}</p>
               </div>
 
               {/* Actions */}
               <div className="px-4 pb-4 flex gap-2">
                 <Link
                   href={`/admin/articles/${item.id}`}
-                  className="flex-1 text-center text-sm bg-[#132433] hover:bg-[#1a2e3a] text-white py-2 rounded-lg transition-colors"
+                  className="flex-1 text-center text-sm bg-[#12434b] hover:bg-[#1b4a52] text-white py-2 rounded-lg transition-colors"
                 >
                   Modifier
                 </Link>

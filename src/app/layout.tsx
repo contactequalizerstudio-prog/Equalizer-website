@@ -5,77 +5,32 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-/* ── Ibrand — display / headings ─────────────────────────── */
-const ibrand = localFont({
-  src: [
-    {
-      path: "../fonts/Ibrand.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../fonts/Ibrand.woff",
-      weight: "400",
-      style: "normal",
-    },
-  ],
-  variable: "--font-ibrand",
+/* ── Bricolage Grotesque: display / headings ─────────────── */
+const bricolage = localFont({
+  src: "../fonts/BricolageGrotesque-Variable.woff2",
+  weight: "200 800",
+  style: "normal",
+  variable: "--font-bricolage",
   display: "swap",
-  preload: true,
 });
 
-/* ── Nobel Uno — body / UI text ───────────────────────────── */
-const nobelUno = localFont({
+/* ── Instrument Sans: body / UI text ─────────────────────── */
+const instrument = localFont({
   src: [
-    {
-      path: "../fonts/NobelUno-Light.woff2",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../fonts/NobelUno-LightItalic.woff2",
-      weight: "300",
-      style: "italic",
-    },
-    {
-      path: "../fonts/NobelUno-Regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../fonts/NobelUno-Italic.woff2",
-      weight: "400",
-      style: "italic",
-    },
-    {
-      path: "../fonts/NobelUno-Medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../fonts/NobelUno-MediumItalic.woff2",
-      weight: "500",
-      style: "italic",
-    },
-    {
-      path: "../fonts/NobelUno-SemiBold.woff2",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../fonts/NobelUno-Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../fonts/NobelUno-BoldItalic.woff2",
-      weight: "700",
-      style: "italic",
-    },
+    { path: "../fonts/InstrumentSans-Variable.woff2", weight: "400 700", style: "normal" },
+    { path: "../fonts/InstrumentSans-Italic-Variable.woff2", weight: "400 700", style: "italic" },
   ],
-  variable: "--font-nobel",
+  variable: "--font-body",
   display: "swap",
-  preload: true,
+});
+
+/* ── Caveat: handwritten accent, as in the logo ──────────── */
+const caveat = localFont({
+  src: "../fonts/Caveat-SemiBold.woff2",
+  weight: "600",
+  style: "normal",
+  variable: "--font-caveat",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -170,7 +125,7 @@ export default async function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${ibrand.variable} ${nobelUno.variable}`}
+      className={`${bricolage.variable} ${instrument.variable} ${caveat.variable}`}
     >
       <head>
         {!isAdmin && (
@@ -184,7 +139,7 @@ export default async function RootLayout({
         {!isAdmin && (
           <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:z-50 focus:top-4 focus:left-4 focus:px-4 focus:py-2 focus:bg-gold focus:text-black focus:rounded-md focus:font-medium"
+            className="sr-only focus:not-sr-only focus:fixed focus:z-50 focus:top-4 focus:left-4 focus:px-4 focus:py-2 focus:bg-gold focus:text-background focus:rounded-md focus:font-medium"
           >
             Aller au contenu principal
           </a>

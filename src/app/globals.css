@@ -1,26 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  /* ── Core palette (from album-cover.jpeg) ─────────────── */
-  --background: #070d10;      /* deep teal-black */
-  --foreground: #f0f4f6;      /* cool white */
+  color-scheme: dark;
 
-  /* Primary accent chain (replaces gold) */
-  --gold: #0e8ec4;            /* ocean blue  — text, borders, icons */
-  --gold-light: #6bdde3;      /* cyan        — hover state, gradient high */
-  --gold-dark: #135a63;       /* deep teal   — gradient low, dark accents */
+  /* ── Core palette: a night stage, deep teal ───────────── */
+  --background: #07242a;
+  --foreground: #edf7f7;
 
-  /* Extra palette colours */
+  /* Accent chain. Token names kept from the previous theme
+     so every page follows; the values are the brand aqua. */
+  --gold: #6bdde3;            /* aqua: text accents, borders, main buttons */
+  --gold-light: #8be8ed;      /* hover */
+  --gold-dark: #0276a0;       /* deep blue */
+
   --lavender: #b28cfc;
   --pink: #f996da;
+  --deep: #0276a0;
 
   /* Surfaces */
-  --surface: #0d1820;
-  --surface-2: #132433;
+  --surface: #0c3239;
+  --surface-2: #12434b;
 
   /* Borders & muted */
-  --border: #1a2e3a;
-  --text-muted: #7a9aac;
+  --border: #1b4a52;
+  --line: rgba(107, 221, 227, 0.16);
+  --text-muted: #9dbabf;
+
+  /* Light band */
+  --paper: #f2f8f8;
+  --paper-ink: #10343a;
+  --paper-muted: #44556b;
+
+  --spectrum: linear-gradient(90deg, #6bdde3, #b28cfc 55%, #f996da);
 }
 
 @theme inline {
@@ -35,29 +46,32 @@
   --color-surface-2: var(--surface-2);
   --color-border: var(--border);
   --color-muted: var(--text-muted);
-  --font-sans: var(--font-nobel);
-  --font-display: var(--font-ibrand);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-bricolage);
+  --font-script: var(--font-caveat);
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 84px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-nobel), var(--font-sans), Arial, sans-serif;
+  font-family: var(--font-body), system-ui, -apple-system, "Segoe UI", sans-serif;
+  overflow-x: hidden;
 }
 
-/* ── Gradient text (cyan → blue sweep) ──────────────────── */
+h1, h2, h3 {
+  font-family: var(--font-bricolage), "Arial Narrow", system-ui, sans-serif;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* ── Gradient text (aqua → violet → pink spectrum) ──────── */
 .text-gold-gradient {
-  background: linear-gradient(
-    135deg,
-    #135a63 0%,
-    #0e8ec4 40%,
-    #6bdde3 65%,
-    #0e8ec4 100%
-  );
+  background: var(--spectrum);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -66,7 +80,8 @@ body {
 /* ── Horizontal divider with accent fade ────────────────── */
 .divider-gold {
   height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  background: var(--spectrum);
+  opacity: 0.7;
 }
 
 /* ── Section spacing ─────────────────────────────────────── */
@@ -119,7 +134,7 @@ body {
 
 .card-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(14, 142, 196, 0.12);
+  box-shadow: 0 20px 40px rgba(107, 221, 227, 0.12);
   border-color: var(--gold);
 }
 
@@ -162,6 +177,17 @@ body {
 
 /* ── Focus styles ────────────────────────────────────────── */
 *:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--pink);
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .animation-delay-200, .animation-delay-400,
+  .animation-delay-600, .animation-delay-800 { opacity: 1; }
 }

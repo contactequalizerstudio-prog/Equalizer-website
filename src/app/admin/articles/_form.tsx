@@ -150,7 +150,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center min-h-96">
-        <div className="text-[#7a9aac]">Chargement…</div>
+        <div className="text-[#9dbabf]">Chargement…</div>
       </div>
     );
   }
@@ -161,7 +161,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
       <div className="flex items-center gap-4 mb-8">
         <Link
           href="/admin"
-          className="text-[#7a9aac] hover:text-white transition-colors text-sm"
+          className="text-[#9dbabf] hover:text-white transition-colors text-sm"
         >
           ← Retour
         </Link>
@@ -173,13 +173,13 @@ export default function ArticleForm({ mode, itemId }: Props) {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Image upload */}
         <div>
-          <label className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-3">
+          <label className="block text-[#9dbabf] text-xs tracking-widest uppercase mb-3">
             Image
           </label>
 
           {/* Preview */}
           {previewSrc && (
-            <div className="relative h-52 w-full rounded-xl overflow-hidden bg-[#132433] mb-3 border border-[#1a2e3a]">
+            <div className="relative h-52 w-full rounded-xl overflow-hidden bg-[#12434b] mb-3 border border-[#1b4a52]">
               <Image
                 src={previewSrc}
                 alt="Aperçu"
@@ -198,13 +198,13 @@ export default function ArticleForm({ mode, itemId }: Props) {
               value={form.src}
               onChange={handleChange}
               placeholder="/nom-image.jpg"
-              className="flex-1 bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors placeholder:text-[#3a5a6a]"
+              className="flex-1 bg-[#12434b] border border-[#1b4a52] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#6bdde3] transition-colors placeholder:text-[#6d8f95]"
             />
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
               disabled={uploading}
-              className="px-4 py-2.5 bg-[#132433] hover:bg-[#1a2e3a] border border-[#1a2e3a] text-white text-sm rounded-lg transition-colors disabled:opacity-50 whitespace-nowrap"
+              className="px-4 py-2.5 bg-[#12434b] hover:bg-[#1b4a52] border border-[#1b4a52] text-white text-sm rounded-lg transition-colors disabled:opacity-50 whitespace-nowrap"
             >
               {uploading ? "Upload…" : "📁 Choisir un fichier"}
             </button>
@@ -222,7 +222,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
         <div>
           <label
             htmlFor="title"
-            className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+            className="block text-[#9dbabf] text-xs tracking-widest uppercase mb-2"
           >
             Titre <span className="text-red-400">*</span>
           </label>
@@ -233,7 +233,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
             value={form.title}
             onChange={handleChange}
             required
-            className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors"
+            className="w-full bg-[#12434b] border border-[#1b4a52] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#6bdde3] transition-colors"
           />
         </div>
 
@@ -242,7 +242,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
           <div>
             <label
               htmlFor="category"
-              className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+              className="block text-[#9dbabf] text-xs tracking-widest uppercase mb-2"
             >
               Catégorie
             </label>
@@ -251,7 +251,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
               name="category"
               value={form.category}
               onChange={handleChange}
-              className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors"
+              className="w-full bg-[#12434b] border border-[#1b4a52] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#6bdde3] transition-colors"
             >
               {CATEGORIES.map((c) => (
                 <option key={c} value={c}>
@@ -264,7 +264,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
           <div>
             <label
               htmlFor="objectPosition"
-              className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+              className="block text-[#9dbabf] text-xs tracking-widest uppercase mb-2"
             >
               Cadrage image
             </label>
@@ -273,7 +273,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
               name="objectPosition"
               value={form.objectPosition}
               onChange={handleChange}
-              className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors"
+              className="w-full bg-[#12434b] border border-[#1b4a52] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#6bdde3] transition-colors"
             >
               {OBJECT_POSITIONS.map((p) => (
                 <option key={p.value} value={p.value}>
@@ -288,7 +288,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
         <div>
           <label
             htmlFor="event"
-            className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+            className="block text-[#9dbabf] text-xs tracking-widest uppercase mb-2"
           >
             Type d&apos;événement
           </label>
@@ -299,7 +299,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
             value={form.event}
             onChange={handleChange}
             placeholder="ex: Événement festif, Salon professionnel…"
-            className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors placeholder:text-[#3a5a6a]"
+            className="w-full bg-[#12434b] border border-[#1b4a52] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#6bdde3] transition-colors placeholder:text-[#6d8f95]"
           />
         </div>
 
@@ -307,7 +307,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
         <div>
           <label
             htmlFor="alt"
-            className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+            className="block text-[#9dbabf] text-xs tracking-widest uppercase mb-2"
           >
             Texte alternatif (SEO)
           </label>
@@ -318,7 +318,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
             value={form.alt}
             onChange={handleChange}
             placeholder="Description courte de l'image pour le référencement"
-            className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#0e8ec4] transition-colors placeholder:text-[#3a5a6a]"
+            className="w-full bg-[#12434b] border border-[#1b4a52] text-white rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#6bdde3] transition-colors placeholder:text-[#6d8f95]"
           />
         </div>
 
@@ -339,7 +339,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
           <button
             type="submit"
             disabled={saving || uploading}
-            className="px-8 py-3 bg-[#0e8ec4] hover:bg-[#0a7aaa] disabled:opacity-50 text-white font-semibold text-sm rounded-lg transition-colors"
+            className="px-8 py-3 bg-[#6bdde3] hover:bg-[#8be8ed] disabled:opacity-50 text-white font-semibold text-sm rounded-lg transition-colors"
           >
             {saving
               ? "Sauvegarde…"
@@ -349,7 +349,7 @@ export default function ArticleForm({ mode, itemId }: Props) {
           </button>
           <Link
             href="/admin"
-            className="px-6 py-3 bg-[#132433] hover:bg-[#1a2e3a] text-[#7a9aac] text-sm rounded-lg transition-colors"
+            className="px-6 py-3 bg-[#12434b] hover:bg-[#1b4a52] text-[#9dbabf] text-sm rounded-lg transition-colors"
           >
             Annuler
           </Link>

@@ -116,11 +116,10 @@ export default function HotesseBooking({ hostesses }: Props) {
         <div className="w-20 h-20 rounded-full bg-gold/10 border border-gold flex items-center justify-center mb-6">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              stroke="#0e8ec4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              stroke="#6bdde3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <h2 className="font-display text-3xl font-light text-white mb-3"
-          style={{ fontFamily: "var(--font-ibrand), sans-serif" }}>
+        <h2 className="font-display text-3xl font-bold tracking-tight text-white mb-3">
           Réservation envoyée !
         </h2>
         <p className="text-muted text-sm leading-7 max-w-sm mb-3">
@@ -131,7 +130,7 @@ export default function HotesseBooking({ hostesses }: Props) {
         </p>
         <button
           onClick={() => { setBookingStatus("idle"); setSelected([]); setShowForm(false); setForm({ name: "", email: "", phone: "", event: "", eventDate: "", message: "" }); }}
-          className="px-8 py-3 border border-gold text-gold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold hover:text-black transition-all duration-300"
+          className="px-8 py-3 border border-gold text-gold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold hover:text-background transition-all duration-300"
         >
           Nouvelle réservation
         </button>
@@ -205,8 +204,8 @@ export default function HotesseBooking({ hostesses }: Props) {
                             onClick={(e) => { e.stopPropagation(); toggleSelect(hotesse.name); }}
                             className={`px-5 py-2 rounded-full text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-300 ${
                               isSelectedHotesse
-                                ? "bg-gold text-black shadow-[0_0_20px_rgba(14,142,196,0.6)]"
-                                : "bg-black/60 text-white border border-white/40 hover:bg-gold hover:text-black hover:border-gold"
+                                ? "bg-gold text-background shadow-[0_0_20px_rgba(107,221,227,0.6)]"
+                                : "bg-black/60 text-white border border-white/40 hover:bg-gold hover:text-background hover:border-gold"
                             }`}
                           >
                             {isSelectedHotesse ? "✓ Sélectionnée" : "Réserver"}
@@ -226,7 +225,7 @@ export default function HotesseBooking({ hostesses }: Props) {
 
                   {/* ── Face arrière (infos) ── */}
                   <div
-                    className="absolute inset-0 rounded-2xl overflow-hidden flex flex-col bg-[#0d1820] border border-gold/30"
+                    className="absolute inset-0 rounded-2xl overflow-hidden flex flex-col bg-[#0c3239] border border-gold/30"
                     style={{
                       backfaceVisibility: "hidden",
                       WebkitBackfaceVisibility: "hidden",
@@ -284,8 +283,8 @@ export default function HotesseBooking({ hostesses }: Props) {
                           onClick={(e) => { e.stopPropagation(); toggleSelect(hotesse.name); }}
                           className={`flex-1 py-2 rounded-full text-xs font-semibold tracking-[0.15em] uppercase transition-all ${
                             isSelectedHotesse
-                              ? "bg-gold text-black"
-                              : "bg-gold/90 text-black hover:bg-gold"
+                              ? "bg-gold text-background"
+                              : "bg-gold/90 text-background hover:bg-gold"
                           }`}
                         >
                           {isSelectedHotesse ? "✓ OK" : "Réserver"}
@@ -363,7 +362,7 @@ export default function HotesseBooking({ hostesses }: Props) {
           </div>
           <button
             onClick={() => setShowForm(true)}
-            className="w-full py-3.5 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)]"
+            className="w-full py-3.5 bg-gold text-background font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(107,221,227,0.4)]"
           >
             Finir ma sélection →
           </button>
@@ -374,8 +373,7 @@ export default function HotesseBooking({ hostesses }: Props) {
         <div className="bg-surface border border-border rounded-2xl p-8 lg:p-10 mx-auto w-full max-w-2xl">
           <p className="text-gold text-xs tracking-[0.25em] uppercase mb-2">Étape finale</p>
           <h2
-            className="font-display text-2xl font-light text-white mb-6"
-            style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+            className="font-display text-2xl font-bold tracking-tight text-white mb-6"
           >
             Vos informations
           </h2>
@@ -441,7 +439,7 @@ export default function HotesseBooking({ hostesses }: Props) {
             <button
               type="submit"
               disabled={bookingStatus === "sending"}
-              className="w-full flex items-center justify-center gap-2 py-4 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)] disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 py-4 bg-gold text-background font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(107,221,227,0.4)] disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {bookingStatus === "sending" ? (
                 <>

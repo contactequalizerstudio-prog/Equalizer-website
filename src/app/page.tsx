@@ -1,71 +1,42 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  IconVideocam,
-  IconMic,
-  IconEvent,
-  IconRecordVoiceOver,
-  IconPeople,
-  IconGroups,
-} from "@/components/Icons";
+import HeroEqualizer from "@/components/home/HeroEqualizer";
+import ServiceConsole from "@/components/home/ServiceConsole";
+import BriefBuilder from "@/components/home/BriefBuilder";
+import "./home.css";
 
 export const metadata: Metadata = {
-  title: "Equalizer Studio | Agence de Communication Professionnelle",
+  title: "Equalizer Studio | Agence de communication et événementielle à Antananarivo",
   description:
-    "Equalizer Studio — Photos, vidéos, voix off, évènementiel, MC, hôtesses et team building à Madagascar depuis plus de 13 ans.",
+    "Equalizer Studio, agence de communication et événementielle à Antananarivo : photo et vidéo, voix off en 4 langues, événementiel, MC, hôtesses, team building.",
 };
 
-const services = [
-  {
-    Icon: IconVideocam,
-    title: "Photos & Vidéos",
-    description:
-      "5 ans d'expérience en production audiovisuelle pour une chaîne de télévision. Des campagnes de communication percutantes avec des supports visuels de haute qualité.",
-    href: "/nos-services#photos-videos",
-  },
-  {
-    Icon: IconMic,
-    title: "Voix Off & Spot Audio",
-    description:
-      "12 ans de voix à notre actif. Un support indispensable pour vos spots vidéo, spots audio et présentations. Disponible en malagasy, français, anglais et italien.",
-    href: "/nos-services#voix-off",
-  },
-  {
-    Icon: IconEvent,
-    title: "Évènementiel",
-    description:
-      "Chez Equalizer Studio, nous concevons et accompagnons vos événements avec une approche complète, professionnelle et terrain. De l’accueil des invités à l’animation, en passant par la coordination, la photo, la vidéo, le drone ou encore la voix off, notre équipe veille à créer une expérience fluide, élégante et mémorable.",
-    href: "/nos-services#evenementiel",
-  },
-  {
-    Icon: IconRecordVoiceOver,
-    title: "MC & Animateur",
-    description:
-      "Un maître de cérémonie charismatique pour animer vos événements, conférences d'entreprise, galas et soirées de prestige.",
-    href: "/nos-services#mc",
-  },
-  {
-    Icon: IconPeople,
-    title: "Hôtesses & Animatrices",
-    description:
-      "Accueil, check-in, remise de badge, orientation et passation de micro. Des professionnelles pour vos CHR, GMS, salons et conférences d'entreprise.",
-    href: "/nos-hotesses",
-  },
-  {
-    Icon: IconGroups,
-    title: "Team Building",
-    description:
-      "Améliorez la cohésion de votre équipe. Des activités sur mesure pour fédérer vos collaborateurs autour des valeurs de votre entreprise.",
-    href: "/nos-services#team-building",
-  },
+const stats = [
+  { value: "13+", label: "ans d'expérience" },
+  { value: "100+", label: "événements réalisés" },
+  { value: "50+", label: "clients satisfaits" },
+  { value: "4", label: "langues en voix off" },
 ];
 
-const stats = [
-  { value: "13+", label: "Ans d'expérience" },
-  { value: "4", label: "Langues disponibles" },
-  { value: "100+", label: "Événements réalisés" },
-  { value: "50+", label: "Clients satisfaits" },
+const voices = [
+  { word: "Tongasoa", lang: "mg", label: "Malagasy" },
+  { word: "Bienvenue", lang: "fr", label: "Français" },
+  { word: "Welcome", lang: "en", label: "English" },
+  { word: "Benvenuti", lang: "it", label: "Italiano" },
+];
+
+const work = [
+  { src: "/first_image.png", kicker: "Production", title: "Photos & Vidéos", sizes: "(max-width: 820px) 100vw, 42vw" },
+  { src: "/12.png", kicker: "Événement", title: "Évènementiel", sizes: "(max-width: 820px) 100vw, 30vw" },
+  { src: "/voice.jpeg", kicker: "Médias", title: "Voix Off & Audio", sizes: "(max-width: 820px) 100vw, 30vw" },
+];
+
+const socials = [
+  { label: "Facebook", href: "https://www.facebook.com/EqualizerStudioMG" },
+  { label: "Instagram", href: "https://www.instagram.com/studio.equalizer/" },
+  { label: "TikTok", href: "https://www.tiktok.com/@equalizer_studio" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/equalizer-studio" },
 ];
 
 const logosRow1 = [
@@ -114,391 +85,257 @@ const logosRow2 = [
   { src: "/Logo partenaire/viseo-logo2.webp",              alt: "Viseo" },
 ];
 
+type Logo = { src: string; alt: string };
+
+function LogoRail({ logos, reverse = false }: { logos: Logo[]; reverse?: boolean }) {
+  return (
+    <div className={reverse ? "rail reverse" : "rail"}>
+      <ul className="track">
+        {[...logos, ...logos].map((logo, i) => {
+          const copy = i >= logos.length;
+          return (
+            <li key={i} aria-hidden={copy || undefined}>
+              <Image src={logo.src} alt={copy ? "" : logo.alt} width={124} height={56} unoptimized />
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
+const Arrow = () => (
+  <span className="arrow" aria-hidden="true">
+    →
+  </span>
+);
+
 export default function HomePage() {
   return (
-    <>
+    <div className="home">
       {/* ── Hero ────────────────────────────────────────── */}
-      <section
-        className="relative min-h-screen flex items-center justify-center overflow-hidden"
-        aria-label="Bienvenue chez Equalizer Studio"
-      >
-        {/* Background image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/13.png"
-            alt=""
-            fill
-            className="object-cover object-center"
-            priority
-            aria-hidden="true"
-          />
-          <div
-            className="absolute inset-0 bg-gradient-to-b from-[#070d10]/70 via-[#070d10]/60 to-[#070d10]"
-            aria-hidden="true"
-          />
-          <div
-            className="absolute inset-0 bg-gradient-to-tr from-[#135a63]/20 via-transparent to-[#b28cfc]/10"
-            aria-hidden="true"
-          />
-        </div>
-
-        {/* Hero content */}
-        <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-10 text-center py-32">
-          <p className="animate-fade-up animation-delay-200 text-gold text-xs tracking-[0.35em] uppercase font-medium mb-6">
-            Agence de Communication et événementielle
-          </p>
-          <h1
-            className="animate-fade-up animation-delay-400 font-display text-5xl sm:text-6xl lg:text-8xl font-light text-white leading-[1.1] mb-6 tracking-tight"
-            style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
-          >
-            <span className="block">Soutenir</span>
-            <span className="block text-gold-gradient italic">
-              ceux qui veulent évoluer
-            </span>
+      <div className="hero">
+        <div className="wrap">
+          <p className="eyebrow">Agence de communication &amp; événementielle · Antananarivo</p>
+          <h1>
+            Soutenir ceux qui veulent <em>évoluer</em>
           </h1>
-          <p className="animate-fade-up animation-delay-600 text-white/70 text-base sm:text-lg leading-8 max-w-2xl mx-auto mb-10">
-            Depuis plus de 13 ans, Equalizer Studio accompagne les entreprises
-            et les particuliers dans leurs projets de communication à Madagascar.
+          <p className="lede">
+            Depuis plus de 13 ans, Equalizer Studio donne de la voix, de l&apos;image et de la scène aux projets des
+            entreprises et des particuliers à Madagascar.
           </p>
-          <div className="animate-fade-up animation-delay-800 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/nos-services"
-              className="px-8 py-4 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)]"
-            >
-              Découvrir nos services
-            </Link>
-            <Link
-              href="/nous-contacter"
-              className="px-8 py-4 border border-white/30 text-white text-xs tracking-[0.2em] uppercase rounded-full hover:border-gold hover:text-gold transition-all duration-300"
-            >
-              Nous contacter
-            </Link>
+          <div className="cta">
+            <a className="btn btn-main" href="#contact">
+              Parler de mon projet <Arrow />
+            </a>
+            <a className="btn btn-ghost" href="#services">
+              Voir les six services
+            </a>
           </div>
         </div>
-
-        {/* Scroll indicator */}
-        <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in animation-delay-800"
-          aria-hidden="true"
-        >
-          <span className="text-white/40 text-xs tracking-widest uppercase">Défiler</span>
-          <div className="w-px h-10 bg-gradient-to-b from-gold/60 to-transparent" />
-        </div>
-      </section>
-
-      {/* ── Stats bar ───────────────────────────────────── */}
-      <section
-        className="bg-surface border-y border-border py-12"
-        aria-label="Nos chiffres clés"
-      >
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <dl className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        <HeroEqualizer />
+        <div className="wrap">
+          <dl className="stats">
             {stats.map((stat) => (
-              <div key={stat.label} className="flex flex-col items-center gap-2">
-                <dt
-                  className="font-display text-4xl lg:text-5xl font-light text-gold"
-                  style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
-                >
-                  {stat.value}
-                </dt>
-                <dd className="text-muted text-xs tracking-[0.2em] uppercase">
-                  {stat.label}
-                </dd>
+              <div className="stat" key={stat.label}>
+                <dt>{stat.label}</dt>
+                <dd>{stat.value}</dd>
               </div>
             ))}
           </dl>
         </div>
-      </section>
+      </div>
 
       {/* ── Services ────────────────────────────────────── */}
-      <section className="section-padding bg-background" aria-labelledby="services-heading">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          {/* Section header */}
-          <div className="text-center mb-16">
-            <p className="text-gold text-xs tracking-[0.35em] uppercase mb-3">
-              Ce que nous faisons
+      <section id="services" className="band" aria-labelledby="services-title">
+        <div className="wrap">
+          <div className="head">
+            <div>
+              <p className="eyebrow">Nos services</p>
+              <h2 id="services-title">Six pistes, une seule régie.</h2>
+            </div>
+            <p className="lede">
+              Chaque métier se réserve seul. Ensemble, ils couvrent un événement de l&apos;accueil des invités
+              jusqu&apos;au film souvenir.
             </p>
-            <h2
-              id="services-heading"
-              className="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-white"
-              style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
-            >
-              Nos Services
-            </h2>
-            <div className="divider-gold w-24 mx-auto mt-6" aria-hidden="true" />
           </div>
+          <ServiceConsole />
+        </div>
+      </section>
 
-          {/* Services grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service) => (
-              <Link
-                key={service.title}
-                href={service.href}
-                className="card-hover group bg-surface border border-border rounded-xl p-8 flex flex-col gap-4 no-underline"
-              >
-                <span className="text-gold">
-                  <service.Icon size={28} />
-                </span>
-                <h3 className="text-white font-semibold text-lg tracking-wide group-hover:text-gold transition-colors duration-200">
-                  {service.title}
-                </h3>
-                <p className="text-muted text-sm leading-7 flex-1">
-                  {service.description}
-                </p>
-                <span className="text-gold text-xs tracking-[0.2em] uppercase mt-2 group-hover:gap-3 flex items-center gap-2 transition-all duration-200">
-                  En savoir plus
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    aria-hidden="true"
-                    className="transition-transform duration-200 group-hover:translate-x-1"
-                  >
-                    <path
-                      d="M3 8h10M9 4l4 4-4 4"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-              </Link>
+      {/* ── Voix off ────────────────────────────────────── */}
+      <section id="voix" className="band tight" aria-labelledby="voix-title">
+        <div className="wrap">
+          <div className="head">
+            <div>
+              <p className="eyebrow">Voix off &amp; spot audio</p>
+              <h2 id="voix-title">Douze ans de micro, quatre langues.</h2>
+            </div>
+            <p className="lede">
+              Spots vidéo, spots radio, présentations d&apos;entreprise. La même voix porte votre message auprès de
+              chaque public.
+            </p>
+          </div>
+          <div className="voices">
+            {voices.map((voice) => (
+              <div className="voice" key={voice.lang}>
+                <q lang={voice.lang}>{voice.word}</q>
+                <span>{voice.label}</span>
+              </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="text-center mt-12">
-            <Link
-              href="/nos-services"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-gold text-gold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold hover:text-black transition-all duration-300"
-            >
-              Voir tous nos services
+      {/* ── Hôtesses ────────────────────────────────────── */}
+      <section id="hotesses" className="band tight" aria-labelledby="hotesses-title">
+        <div className="wrap split">
+          <div>
+            <p className="eyebrow">Hôtesses &amp; animatrices</p>
+            <h2 id="hotesses-title">Le premier sourire de votre événement.</h2>
+            <p className="lede">
+              Nos équipes accueillent, orientent et animent. Elles connaissent le terrain, du salon professionnel à
+              l&apos;activation en grande surface.
+            </p>
+            <ul className="tags" aria-label="Terrains d'intervention">
+              <li>CHR</li>
+              <li>GMS</li>
+              <li>Salons</li>
+              <li>Conférences</li>
+              <li>Activations commerciales</li>
+            </ul>
+            <div className="actions">
+              <Link className="btn btn-ghost" href="/reserver-hotesses">
+                Réserver une équipe <Arrow />
+              </Link>
+              <Link className="text-link" href="/nos-hotesses">
+                Voir nos hôtesses
+              </Link>
+            </div>
+          </div>
+          <ol className="steps">
+            <li>
+              <div>
+                <b>Accueil des invités</b>
+                <span>Une présence soignée dès l&apos;entrée.</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <b>Enregistrement</b>
+                <span>Listes, pointage et remise des badges.</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <b>Orientation</b>
+                <span>Chaque invité trouve sa place et son programme.</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <b>Passation de micro</b>
+                <span>Les échanges avec la salle restent fluides.</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      {/* ── Réalisations ────────────────────────────────── */}
+      <section id="realisations" className="band tight" aria-labelledby="realisations-title">
+        <div className="wrap">
+          <div className="head">
+            <div>
+              <p className="eyebrow">Réalisations</p>
+              <h2 id="realisations-title">Vu, entendu, vécu.</h2>
+            </div>
+            <Link className="btn btn-ghost" href="/album">
+              Voir tout le portfolio <Arrow />
             </Link>
           </div>
+          <div className="work">
+            {work.map((item) => (
+              <Link className="tile" href="/album" key={item.title}>
+                <Image src={item.src} alt="" fill sizes={item.sizes} />
+                <small>{item.kicker}</small>
+                <b>{item.title}</b>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── Portfolio preview ────────────────────────────── */}
-      <section
-        className="section-padding bg-surface"
-        aria-labelledby="portfolio-heading"
-      >
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="text-center mb-16">
-            <p className="text-gold text-xs tracking-[0.35em] uppercase mb-3">
-              Nos réalisations
+      {/* ── Références (bande claire) ───────────────────── */}
+      <section id="references" className="refs" aria-labelledby="references-title">
+        <div className="wrap">
+          <div className="head" style={{ marginBottom: 32 }}>
+            <div>
+              <p className="eyebrow">Nos références</p>
+              <h2 id="references-title">Ils nous ont confié leur image.</h2>
+            </div>
+            <p className="lede">
+              Banques, télécoms, énergie, automobile, institutions. Quarante marques nous ont déjà fait confiance.
             </p>
-            <h2
-              id="portfolio-heading"
-              className="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-white"
-              style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
-            >
-              Portfolio
-            </h2>
-            <div className="divider-gold w-24 mx-auto mt-6" aria-hidden="true" />
           </div>
+        </div>
+        <LogoRail logos={logosRow1} />
+        <LogoRail logos={logosRow2} reverse />
+        <div className="wrap">
+          <p className="more">…et bien d&apos;autres clients et partenaires à travers Madagascar.</p>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Featured image */}
-            <div className="img-zoom lg:col-span-2 relative h-72 lg:h-96 rounded-xl overflow-hidden border border-border">
-              <Image
-                src="/first_image.png"
-                alt="Equalizer Studio — Production audiovisuelle"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-              <div className="absolute bottom-6 left-6">
-                <span className="text-gold text-xs tracking-[0.2em] uppercase">Production</span>
-                <p className="text-white font-semibold text-lg mt-1">
-                  Photos & Vidéos
-                </p>
-              </div>
-            </div>
-
-            {/* Second image */}
-            <div className="img-zoom relative h-72 lg:h-96 rounded-xl overflow-hidden border border-border">
-              <Image
-                src="/12.png"
-                alt="Equalizer Studio — Évènementiel"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-              <div className="absolute bottom-6 left-6">
-                <span className="text-gold text-xs tracking-[0.2em] uppercase">Événement</span>
-                <p className="text-white font-semibold text-lg mt-1">
-                  Évènementiel
-                </p>
-              </div>
-            </div>
-
-            {/* Album cover */}
-            <div className="img-zoom relative h-72 rounded-xl overflow-hidden border border-border">
-              <Image
-                src="/voice.jpeg"
-                alt="Equalizer Studio — Album cover"
-                fill
-                className="object-cover"
-              />
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-              <div className="absolute bottom-6 left-6">
-                <span className="text-gold text-xs tracking-[0.2em] uppercase">Médias</span>
-                <p className="text-white font-semibold text-lg mt-1">
-                  Voix Off & Audio
-                </p>
-              </div>
-            </div>
-
-            {/* Text CTA card */}
-            <div className="md:col-span-2 lg:col-span-2 bg-background border border-border rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      {/* ── Contact ─────────────────────────────────────── */}
+      <section id="contact" className="band" aria-labelledby="contact-title">
+        <div className="wrap contact">
+          <div>
+            <p className="eyebrow">Contact</p>
+            <h2 id="contact-title">
+              Travaillons <em>ensemble</em>
+            </h2>
+            <p className="lede" style={{ marginTop: 20 }}>
+              Décrivez votre projet en quelques lignes. Le message se rédige tout seul, il ne reste qu&apos;à
+              l&apos;envoyer.
+            </p>
+            <dl className="coords">
               <div>
-                <p className="text-gold text-xs tracking-[0.2em] uppercase mb-2">
-                  Voir plus
-                </p>
-                <h3
-                  className="font-display text-3xl font-light text-white"
-                  style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
-                >
-                  Explorez l&apos;ensemble de nos réalisations
-                </h3>
+                <dt>Téléphone</dt>
+                <dd>
+                  <a href="tel:+261346493198">+261 34 64 931 98</a>
+                  <br />
+                  <a href="tel:+261322540773">+261 32 25 407 73</a>
+                </dd>
               </div>
-              <Link
-                href="/album"
-                className="shrink-0 px-8 py-4 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)]"
-              >
-                Voir le portfolio
-              </Link>
-            </div>
+              <div>
+                <dt>Email</dt>
+                <dd>
+                  <a href="mailto:contact.equalizerstudio@gmail.com">contact.equalizerstudio@gmail.com</a>
+                </dd>
+              </div>
+              <div>
+                <dt>Adresse</dt>
+                <dd>
+                  Lot II A 122 FK Nanisana
+                  <br />
+                  Antananarivo, Madagascar
+                </dd>
+              </div>
+              <div>
+                <dt>Réseaux</dt>
+                <dd className="socials">
+                  {socials.map((social) => (
+                    <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer">
+                      {social.label}
+                    </a>
+                  ))}
+                </dd>
+              </div>
+            </dl>
           </div>
+          <BriefBuilder />
         </div>
       </section>
-
-      {/* ── Clients / Logo marquee ───────────────────────────── */}
-      <section
-        className="section-padding bg-background"
-        aria-labelledby="clients-heading"
-      >
-        {/* Titre */}
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="text-center mb-16">
-            <p className="text-gold text-xs tracking-[0.35em] uppercase mb-3">
-              Ils nous ont fait confiance
-            </p>
-            <h2
-              id="clients-heading"
-              className="font-display text-4xl sm:text-5xl font-light text-white"
-              style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
-            >
-              Nos Références
-            </h2>
-            <div className="divider-gold w-24 mx-auto mt-6" aria-hidden="true" />
-          </div>
-        </div>
-
-        {/* Rangée 1 — défile droite → gauche */}
-        <div className="marquee-row overflow-hidden mb-5" aria-hidden="true">
-          <div className="animate-marquee-rtl flex w-max">
-            {[...logosRow1, ...logosRow1].map((logo, i) => (
-              <div
-                key={i}
-                className="mx-3 shrink-0 flex items-center justify-center rounded-xl bg-white px-4"
-                style={{ width: 148, height: 68 }}
-              >
-                <Image
-                  src={logo.src}
-                  alt={logo.alt}
-                  width={120}
-                  height={52}
-                  className="object-contain max-h-full"
-                  unoptimized
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Rangée 2 — défile gauche → droite */}
-        <div className="marquee-row overflow-hidden" aria-hidden="true">
-          <div className="animate-marquee-ltr flex w-max">
-            {[...logosRow2, ...logosRow2].map((logo, i) => (
-              <div
-                key={i}
-                className="mx-3 shrink-0 flex items-center justify-center rounded-xl bg-white px-4"
-                style={{ width: 148, height: 68 }}
-              >
-                <Image
-                  src={logo.src}
-                  alt={logo.alt}
-                  width={120}
-                  height={52}
-                  className="object-contain max-h-full"
-                  unoptimized
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <p className="text-center text-muted text-sm italic mt-10">
-          ...et bien d&apos;autres clients et partenaires à travers Madagascar.
-        </p>
-      </section>
-
-      {/* ── CTA ──────────────────────────────────────────── */}
-      <section
-        className="relative py-24 overflow-hidden"
-        aria-label="Contactez-nous"
-      >
-        <div className="absolute inset-0 z-0" aria-hidden="true">
-          <Image
-            src="/10.png"
-            alt=""
-            fill
-            className="object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-[#070d10]/85" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#070d10] via-[#070d10]/70 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-bl from-[#0e8ec4]/10 via-transparent to-[#135a63]/20" />
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="max-w-2xl">
-            <p className="text-gold text-xs tracking-[0.35em] uppercase mb-4">
-              Démarrez votre projet
-            </p>
-            <h2
-              className="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-white leading-tight mb-6"
-              style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
-            >
-              Travaillons ensemble
-            </h2>
-            <p className="text-white/70 text-base leading-8 mb-10">
-              Vous avez un projet en tête ? Contactez-nous dès aujourd&apos;hui
-              pour discuter de vos besoins en communication.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="/nous-contacter"
-                className="inline-flex items-center justify-center px-8 py-4 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)]"
-              >
-                Nous contacter
-              </Link>
-              <Link
-                href="/a-propos"
-                className="inline-flex items-center justify-center px-8 py-4 border border-white/30 text-white text-xs tracking-[0.2em] uppercase rounded-full hover:border-gold hover:text-gold transition-all duration-300"
-              >
-                En savoir plus
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+    </div>
   );
 }
-
-
-

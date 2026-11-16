@@ -71,13 +71,13 @@ export default function HotessesAdminPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-white text-2xl font-semibold">Hôtesses</h1>
-          <p className="text-[#7a9aac] text-sm mt-1">
+          <p className="text-[#9dbabf] text-sm mt-1">
             {items.length} hôtesse{items.length !== 1 ? "s" : ""} dans le carrousel
           </p>
         </div>
         <Link
           href="/admin/hotesses/nouveau"
-          className="inline-flex items-center gap-2 bg-[#0e8ec4] hover:bg-[#0a7aaa] text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
+          className="inline-flex items-center gap-2 bg-[#6bdde3] hover:bg-[#8be8ed] text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
         >
           <span className="text-lg leading-none">+</span> Nouvelle hôtesse
         </Link>
@@ -88,16 +88,16 @@ export default function HotessesAdminPage() {
           {Array.from({ length: 8 }).map((_, i) => (
             <div
               key={i}
-              className="bg-[#0d1820] border border-[#1a2e3a] rounded-xl h-72 animate-pulse"
+              className="bg-[#0c3239] border border-[#1b4a52] rounded-xl h-72 animate-pulse"
             />
           ))}
         </div>
       ) : items.length === 0 ? (
-        <div className="text-center py-24 text-[#7a9aac]">
+        <div className="text-center py-24 text-[#9dbabf]">
           <p className="text-lg">Aucune hôtesse pour l&apos;instant.</p>
           <Link
             href="/admin/hotesses/nouveau"
-            className="inline-block mt-4 text-[#0e8ec4] hover:underline text-sm"
+            className="inline-block mt-4 text-[#6bdde3] hover:underline text-sm"
           >
             Ajouter la première hôtesse →
           </Link>
@@ -107,9 +107,9 @@ export default function HotessesAdminPage() {
           {items.map((item) => (
             <article
               key={item.id}
-              className="bg-[#0d1820] border border-[#1a2e3a] rounded-xl overflow-hidden flex flex-col"
+              className="bg-[#0c3239] border border-[#1b4a52] rounded-xl overflow-hidden flex flex-col"
             >
-              <div className="relative aspect-[3/4] bg-[#132433]">
+              <div className="relative aspect-[3/4] bg-[#12434b]">
                 <Image
                   src={toDisplaySrc(item.src)}
                   alt={item.name}
@@ -125,7 +125,7 @@ export default function HotessesAdminPage() {
                 <div className="flex gap-2">
                   <Link
                     href={`/admin/hotesses/${item.id}`}
-                    className="flex-1 text-center text-sm bg-[#132433] hover:bg-[#1a2e3a] text-white py-2 rounded-lg transition-colors"
+                    className="flex-1 text-center text-sm bg-[#12434b] hover:bg-[#1b4a52] text-white py-2 rounded-lg transition-colors"
                   >
                     Modifier
                   </Link>

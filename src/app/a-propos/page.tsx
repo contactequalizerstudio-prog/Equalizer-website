@@ -72,7 +72,7 @@ export default function AProposPage() {
             aria-hidden="true"
           />
           <div
-            className="absolute inset-0 bg-gradient-to-b from-black/40 to-black"
+            className="absolute inset-0 bg-gradient-to-b from-black/40 to-background"
             aria-hidden="true"
           />
         </div>
@@ -81,8 +81,7 @@ export default function AProposPage() {
             Notre histoire
           </p>
           <h1
-            className="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-white"
-            style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+            className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white"
           >
             À Propos
           </h1>
@@ -99,8 +98,7 @@ export default function AProposPage() {
                 Qui sommes-nous ?
               </p>
               <h2
-                className="font-display text-4xl lg:text-5xl font-light text-white mb-6 leading-tight"
-                style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+                className="font-display text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6 leading-tight"
               >
                 Equalizer Studio, votre partenaire communication
               </h2>
@@ -142,8 +140,7 @@ export default function AProposPage() {
               {/* Floating stat card */}
               <div className="absolute -bottom-6 -left-6 bg-surface border border-border rounded-xl p-6 shadow-2xl">
                 <p
-                  className="font-display text-4xl font-light text-gold mb-1"
-                  style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+                  className="font-display text-4xl font-bold tracking-tight text-gold mb-1"
                 >
                   13+
                 </p>
@@ -168,8 +165,7 @@ export default function AProposPage() {
             </p>
             <h2
               id="timeline-heading"
-              className="font-display text-4xl sm:text-5xl font-light text-white"
-              style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+              className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white"
             >
               Notre Histoire
             </h2>
@@ -225,8 +221,7 @@ export default function AProposPage() {
             </p>
             <h2
               id="values-heading"
-              className="font-display text-4xl sm:text-5xl font-light text-white"
-              style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+              className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white"
             >
               Nos Valeurs
             </h2>
@@ -259,8 +254,7 @@ export default function AProposPage() {
             Collaborons ensemble
           </p>
           <h2
-            className="font-display text-4xl sm:text-5xl font-light text-white mb-6"
-            style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+            className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mb-6"
           >
             Votre projet est notre priorité
           </h2>
@@ -271,13 +265,13 @@ export default function AProposPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/nous-contacter"
-              className="px-10 py-4 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)]"
+              className="px-10 py-4 bg-gold text-background font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(107,221,227,0.4)]"
             >
               Contactez-nous
             </Link>
             <Link
               href="/nos-services"
-              className="px-10 py-4 border border-gold text-gold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold hover:text-black transition-all duration-300"
+              className="px-10 py-4 border border-gold text-gold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold hover:text-background transition-all duration-300"
             >
               Nos services
             </Link>

@@ -38,7 +38,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#070d10] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#07242a] flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex flex-col items-center mb-10">
@@ -54,18 +54,18 @@ export default function AdminLoginPage() {
           <h1 className="text-white text-2xl font-semibold tracking-wide">
             Equalizer Studio
           </h1>
-          <p className="text-[#7a9aac] text-sm mt-1">Administration</p>
+          <p className="text-[#9dbabf] text-sm mt-1">Administration</p>
         </div>
 
         {/* Card */}
-        <div className="bg-[#0d1820] border border-[#1a2e3a] rounded-2xl p-8">
+        <div className="bg-[#0c3239] border border-[#1b4a52] rounded-2xl p-8">
           <h2 className="text-white text-xl font-semibold mb-6">Connexion</h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label
                 htmlFor="username"
-                className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+                className="block text-[#9dbabf] text-xs tracking-widest uppercase mb-2"
               >
                 Identifiant
               </label>
@@ -76,7 +76,7 @@ export default function AdminLoginPage() {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 autoComplete="username"
-                className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-3 text-sm outline-none focus:border-[#0e8ec4] transition-colors placeholder:text-[#3a5a6a]"
+                className="w-full bg-[#12434b] border border-[#1b4a52] text-white rounded-lg px-4 py-3 text-sm outline-none focus:border-[#6bdde3] transition-colors placeholder:text-[#6d8f95]"
                 placeholder="admin"
               />
             </div>
@@ -84,7 +84,7 @@ export default function AdminLoginPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-[#7a9aac] text-xs tracking-widest uppercase mb-2"
+                className="block text-[#9dbabf] text-xs tracking-widest uppercase mb-2"
               >
                 Mot de passe
               </label>
@@ -95,7 +95,7 @@ export default function AdminLoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
-                className="w-full bg-[#132433] border border-[#1a2e3a] text-white rounded-lg px-4 py-3 text-sm outline-none focus:border-[#0e8ec4] transition-colors placeholder:text-[#3a5a6a]"
+                className="w-full bg-[#12434b] border border-[#1b4a52] text-white rounded-lg px-4 py-3 text-sm outline-none focus:border-[#6bdde3] transition-colors placeholder:text-[#6d8f95]"
                 placeholder="••••••••"
               />
             </div>
@@ -109,7 +109,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#0e8ec4] hover:bg-[#0a7aaa] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm tracking-widest uppercase rounded-lg py-3 transition-colors"
+              className="w-full bg-[#6bdde3] hover:bg-[#8be8ed] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm tracking-widest uppercase rounded-lg py-3 transition-colors"
             >
               {loading ? "Connexion…" : "Se connecter"}
             </button>

@@ -83,7 +83,7 @@ export default function ContactForm() {
           >
             <path
               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              stroke="#0e8ec4"
+              stroke="#6bdde3"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -91,8 +91,7 @@ export default function ContactForm() {
           </svg>
         </div>
         <h3
-          className="font-display text-3xl font-light text-white mb-3"
-          style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+          className="font-display text-3xl font-bold tracking-tight text-white mb-3"
         >
           Message envoyé !
         </h3>
@@ -102,7 +101,7 @@ export default function ContactForm() {
         </p>
         <button
           onClick={resetForm}
-          className="px-6 py-3 border border-gold text-gold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold hover:text-black transition-all duration-300"
+          className="px-6 py-3 border border-gold text-gold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold hover:text-background transition-all duration-300"
         >
           Nouveau message
         </button>
@@ -117,8 +116,7 @@ export default function ContactForm() {
       aria-label="Formulaire de contact Equalizer Studio"
     >
       <h2
-        className="font-display text-2xl font-light text-white mb-8"
-        style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+        className="font-display text-2xl font-bold tracking-tight text-white mb-8"
       >
         Envoyez-nous un message
       </h2>
@@ -271,7 +269,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)] disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-gold text-background font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(107,221,227,0.4)] disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {status === "sending" ? (
           <>

@@ -103,7 +103,7 @@ export default function HotessesPage() {
             aria-hidden="true"
           />
           <div
-            className="absolute inset-0 bg-gradient-to-b from-black/40 to-black"
+            className="absolute inset-0 bg-gradient-to-b from-black/40 to-background"
             aria-hidden="true"
           />
         </div>
@@ -112,8 +112,7 @@ export default function HotessesPage() {
             Equalizer Booking
           </p>
           <h1
-            className="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-white"
-            style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+            className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white"
           >
             Hôtesses & Animatrices
           </h1>
@@ -129,8 +128,7 @@ export default function HotessesPage() {
                 Equalizer Booking
               </p>
               <h2
-                className="font-display text-4xl lg:text-5xl font-light text-white mb-6 leading-tight"
-                style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+                className="font-display text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6 leading-tight"
               >
                 Des professionnelles à votre service
               </h2>
@@ -157,7 +155,7 @@ export default function HotessesPage() {
 
               <Link
                 href="/reserver-hotesses"
-                className="inline-flex items-center gap-2 mt-8 px-8 py-4 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)]"
+                className="inline-flex items-center gap-2 mt-8 px-8 py-4 bg-gold text-background font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(107,221,227,0.4)]"
               >
                 Réserver des hôtesses
               </Link>
@@ -188,8 +186,7 @@ export default function HotessesPage() {
             </p>
             <h2
               id="missions-heading"
-              className="font-display text-4xl sm:text-5xl font-light text-white"
-              style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+              className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white"
             >
               Leurs Missions
             </h2>
@@ -229,8 +226,7 @@ export default function HotessesPage() {
             </p>
             <h2
               id="contexts-heading"
-              className="font-display text-4xl sm:text-5xl font-light text-white"
-              style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+              className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white"
             >
               Où interviennent-elles ?
             </h2>
@@ -290,8 +286,7 @@ export default function HotessesPage() {
               </p>
               <h2
                 id="advantages-heading"
-                className="font-display text-4xl lg:text-5xl font-light text-white mb-6 leading-tight"
-                style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+                className="font-display text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6 leading-tight"
               >
                 Pourquoi choisir nos hôtesses?
               </h2>
@@ -323,8 +318,7 @@ export default function HotessesPage() {
             Réservez maintenant
           </p>
           <h2
-            className="font-display text-4xl sm:text-5xl font-light text-white mb-6"
-            style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+            className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mb-6"
           >
             Votre événement mérite le meilleur accueil
           </h2>
@@ -335,13 +329,13 @@ export default function HotessesPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/reserver-hotesses"
-              className="px-10 py-4 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)]"
+              className="px-10 py-4 bg-gold text-background font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(107,221,227,0.4)]"
             >
               Réserver des hôtesses
             </Link>
             <Link
               href="/postuler-hotesse"
-              className="px-10 py-4 border border-gold text-gold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold hover:text-black transition-all duration-300"
+              className="px-10 py-4 border border-gold text-gold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold hover:text-background transition-all duration-300"
             >
               Postuler en tant que hôtesse
             </Link>

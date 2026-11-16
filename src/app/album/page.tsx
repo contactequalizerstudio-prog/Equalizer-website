@@ -75,7 +75,7 @@ export default async function AlbumPage() {
             aria-hidden="true"
           />
           <div
-            className="absolute inset-0 bg-gradient-to-b from-black/40 to-black"
+            className="absolute inset-0 bg-gradient-to-b from-black/40 to-background"
             aria-hidden="true"
           />
         </div>
@@ -84,8 +84,7 @@ export default async function AlbumPage() {
             Nos réalisations
           </p>
           <h1
-            className="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-white"
-            style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+            className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white"
           >
             Portfolio &amp; Album
           </h1>
@@ -104,7 +103,7 @@ export default async function AlbumPage() {
             </p>
             <Link
               href="/nous-contacter"
-              className="shrink-0 inline-flex items-center gap-2 px-6 py-3 border border-gold text-gold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold hover:text-black transition-all duration-300"
+              className="shrink-0 inline-flex items-center gap-2 px-6 py-3 border border-gold text-gold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold hover:text-background transition-all duration-300"
             >
               Demander un devis
             </Link>
@@ -121,8 +120,7 @@ export default async function AlbumPage() {
           <div className="text-center mb-12">
             <h2
               id="gallery-heading"
-              className="font-display text-4xl sm:text-5xl font-light text-white"
-              style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+              className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white"
             >
               Galerie
             </h2>
@@ -186,8 +184,7 @@ export default async function AlbumPage() {
             </p>
             <h2
               id="partners-heading"
-              className="font-display text-4xl sm:text-5xl font-light text-white"
-              style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+              className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white"
             >
               Nos Partenaires
             </h2>
@@ -251,8 +248,7 @@ export default async function AlbumPage() {
             Votre prochain événement
           </p>
           <h2
-            className="font-display text-4xl sm:text-5xl font-light text-white mb-6"
-            style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+            className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mb-6"
           >
             Créons quelque chose d&apos;exceptionnel
           </h2>
@@ -262,7 +258,7 @@ export default async function AlbumPage() {
           </p>
           <Link
             href="/nous-contacter"
-            className="inline-flex items-center px-10 py-4 bg-gold text-black font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,142,196,0.4)]"
+            className="inline-flex items-center px-10 py-4 bg-gold text-background font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(107,221,227,0.4)]"
           >
             Contactez-nous
           </Link>

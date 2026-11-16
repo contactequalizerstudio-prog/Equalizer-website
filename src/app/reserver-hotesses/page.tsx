@@ -17,14 +17,13 @@ export default async function ReserverHotessesPage() {
 
   return (
     <>
-      <section className="bg-background border-b border-border py-16 lg:py-20">
+      <section className="bg-background border-b border-border pt-32 pb-16 lg:pt-36 lg:pb-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 text-center">
           <p className="text-gold text-xs tracking-[0.35em] uppercase mb-4">
             Equalizer Booking
           </p>
           <h1
-            className="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-white mb-4"
-            style={{ fontFamily: "var(--font-ibrand), sans-serif" }}
+            className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-4"
           >
             Choisissez vos hôtesses
           </h1>
