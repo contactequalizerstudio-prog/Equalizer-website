@@ -56,7 +56,7 @@ export default function Navbar() {
 
         <Link
           href="/#contact"
-          className="hidden sm:inline-flex items-center px-[18px] py-2.5 rounded-full bg-gold text-background text-[0.92rem] font-semibold hover:bg-gold-light hover:-translate-y-0.5 transition-all duration-200"
+          className="hidden lg:inline-flex items-center px-[18px] py-2.5 rounded-full bg-gold text-background text-[0.92rem] font-semibold hover:bg-gold-light hover:-translate-y-0.5 transition-all duration-200"
         >
           Parler de mon projet
         </Link>
@@ -91,12 +91,12 @@ export default function Navbar() {
       <div
         id="mobile-menu"
         className={`lg:hidden overflow-hidden transition-all duration-300 ${
-          isMenuOpen ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0"
+          isMenuOpen ? "h-[calc(100dvh-68px)] opacity-100" : "h-0 opacity-0"
         }`}
         aria-hidden={!isMenuOpen}
         inert={!isMenuOpen}
       >
-        <div className="bg-background border-t border-[var(--line)] px-[clamp(18px,5vw,72px)] py-8">
+        <div className="h-full overflow-y-auto bg-background border-t border-[var(--line)] px-[clamp(18px,5vw,72px)] py-8">
           <ul className="flex flex-col gap-5 list-none m-0 p-0 mb-8">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
