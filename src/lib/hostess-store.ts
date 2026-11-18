@@ -1,6 +1,11 @@
 import fs from "fs";
 import path from "path";
 import initialData from "../data/hostesses.json";
+import {
+  hasLegacyPrivateFields,
+  openHostessRecord,
+  sealHostessRecord,
+} from "./hostess-privacy";
 
 export interface HostessItem {
   id: number;
@@ -28,12 +33,32 @@ const BLOB_KEY = "hostesses.json";
 const IS_VERCEL = !!process.env.VERCEL;
 const HAS_BLOB_TOKEN = !!process.env.BLOB_READ_WRITE_TOKEN;
 
+function openStored(raw: HostessItem[]): { opened: HostessItem[]; needsSeal: boolean } {
+  return {
+    opened: raw.map(openHostessRecord),
+    needsSeal: raw.some(hasLegacyPrivateFields),
+  };
+}
+
 function readLocal(): HostessItem[] {
-  return JSON.parse(fs.readFileSync(LOCAL_FILE, "utf-8")) as HostessItem[];
+  const raw = JSON.parse(fs.readFileSync(LOCAL_FILE, "utf-8")) as HostessItem[];
+  const { opened, needsSeal } = openStored(raw);
+  if (needsSeal) {
+    try {
+      writeLocal(opened);
+    } catch (err) {
+      console.error("[hostess-store] could not encrypt private hostess fields", err);
+    }
+  }
+  return opened;
 }
 
 function writeLocal(items: HostessItem[]): void {
-  fs.writeFileSync(LOCAL_FILE, JSON.stringify(items, null, 2), "utf-8");
+  fs.writeFileSync(
+    LOCAL_FILE,
+    JSON.stringify(items.map(sealHostessRecord), null, 2),
+    "utf-8"
+  );
 }
 
 async function readBlob(): Promise<HostessItem[]> {
@@ -49,16 +74,30 @@ async function readBlob(): Promise<HostessItem[]> {
 
   const res = await fetch(existing.url + `?t=${Date.now()}`, { cache: "no-store" });
   if (!res.ok) throw new Error(`[hostess-store] Failed to fetch hostesses.json: ${res.status}`);
-  return (await res.json()) as HostessItem[];
+  const raw = (await res.json()) as HostessItem[];
+  const { opened, needsSeal } = openStored(raw);
+  // hostesses.json lives on a public blob. Rewrite any plaintext phone,
+  // address, or comment so a direct fetch of that file cannot read them.
+  if (needsSeal) {
+    try {
+      await writeBlob(opened);
+    } catch (err) {
+      console.error("[hostess-store] could not encrypt private hostess fields", err);
+    }
+  }
+  return opened;
 }
 
 async function writeBlob(items: HostessItem[]): Promise<void> {
   const { put } = await import("@vercel/blob");
-  await put(BLOB_KEY, JSON.stringify(items, null, 2), {
+  await put(BLOB_KEY, JSON.stringify(items.map(sealHostessRecord), null, 2), {
     access: "public",
     contentType: "application/json",
     addRandomSuffix: false,
     allowOverwrite: true,
+    // Public blobs default to a one-month cache. Keep this file short-lived so
+    // a rewritten (encrypted) copy replaces any previously cached plaintext.
+    cacheControlMaxAge: 60,
   });
 }
 
