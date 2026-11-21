@@ -116,6 +116,27 @@ const QUESTIONS_EN: { q: string; options: string[] }[] = [
     options: ["They are late", "There are almost none left", "We are printing more", "They are free"] },
 ];
 
+/* ── Photo ──
+   Le navigateur redessine l'image dans un canvas avant l'envoi : la photo part
+   en JPEG d'au plus 1400 px, soit quelques centaines de kilo-octets au lieu de
+   plusieurs méga-octets. Cela règle aussi le HEIC des iPhones, que Safari sait
+   décoder mais que presque aucun serveur n'accepte. */
+async function preparerPhoto(file: File): Promise<string> {
+  const bitmap = await createImageBitmap(file);
+  const max = 1400;
+  const ratio = Math.min(1, max / Math.max(bitmap.width, bitmap.height));
+  const w = Math.round(bitmap.width * ratio);
+  const h = Math.round(bitmap.height * ratio);
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("canvas indisponible");
+  ctx.drawImage(bitmap, 0, 0, w, h);
+  bitmap.close?.();
+  return canvas.toDataURL("image/jpeg", 0.85);
+}
+
 /* ── Main component ── */
 export default function CandidatureForm() {
   const [step, setStep] = useState(1);
@@ -145,6 +166,28 @@ export default function CandidatureForm() {
   const [reponsesEn, setReponsesEn] = useState<string[]>(Array(QUESTIONS_EN.length).fill(""));
   const [texteEn, setTexteEn] = useState("");
 
+  /* Photo */
+  const [photo, setPhoto] = useState("");
+  const [photoNom, setPhotoNom] = useState("");
+  const [photoErreur, setPhotoErreur] = useState("");
+  const [consentement, setConsentement] = useState(false);
+
+  const choisirPhoto = async (e: { target: { files: FileList | null } }) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setPhotoErreur("");
+    if (f.size > 15 * 1024 * 1024) {
+      setPhotoErreur("Cette image dépasse 15 Mo. Choisissez-en une plus légère.");
+      return;
+    }
+    try {
+      setPhoto(await preparerPhoto(f));
+      setPhotoNom(f.name);
+    } catch {
+      setPhotoErreur("Cette image n'a pas pu être lue. Essayez une photo prise avec l'appareil photo du téléphone.");
+    }
+  };
+
   const repondre = (i: number, v: string) =>
     setReponsesEn((prev: string[]) => prev.map((x, k) => (k === i ? v : x)));
 
@@ -167,6 +210,7 @@ export default function CandidatureForm() {
           activite, anneesAnimation, langues, disponibilites, agence,
           mensurations, prestationsHotesse, prestationsAnimatrice, cursus,
           anglaisDeclare, reponsesEn, texteEn,
+          photo: consentement ? photo : "", consentement,
         }),
       });
       setStatus(res.ok ? "sent" : "error");
@@ -459,6 +503,48 @@ export default function CandidatureForm() {
               Écrivez avec vos propres mots, même avec des fautes : c&apos;est ce qui nous
               apprend le plus sur votre niveau réel.
             </p>
+          </div>
+
+          <div className="flex flex-col gap-3 pt-2 border-t border-border">
+            <p className={`${labelCls} pt-6`}>Votre photo</p>
+            <p className="text-muted text-xs leading-6 -mt-1">
+              Un portrait simple, de face, en lumière du jour. Pas besoin d&apos;une photo
+              professionnelle : elle sert à vous reconnaître le jour de l&apos;entretien, et
+              sera refaite lors du shooting si votre candidature est retenue.
+            </p>
+
+            <label className="flex items-center justify-center gap-3 px-4 py-4 rounded-lg border border-dashed border-border bg-background text-muted text-sm cursor-pointer hover:border-gold/40 transition-colors duration-200">
+              <input type="file" accept="image/*" capture="user" className="sr-only" onChange={choisirPhoto} />
+              {photo ? "Choisir une autre photo" : "Ajouter une photo"}
+            </label>
+
+            {photo && (
+              <div className="flex items-center gap-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={photo} alt="Aperçu de votre photo" className="w-20 h-20 rounded-lg object-cover border border-border" />
+                <div className="flex flex-col gap-1">
+                  <span className="text-white text-xs">{photoNom}</span>
+                  <button type="button" onClick={() => { setPhoto(""); setPhotoNom(""); }}
+                    className="text-muted text-xs underline text-left hover:text-gold">
+                    Retirer
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {photoErreur && <p className="text-red-400 text-xs">{photoErreur}</p>}
+
+            {photo && (
+              <label className="flex items-start gap-3 px-4 py-3 rounded-lg border border-border bg-background cursor-pointer text-sm text-muted">
+                <input type="checkbox" className="mt-1 accent-gold" checked={consentement}
+                  onChange={(e) => setConsentement(e.target.checked)} />
+                <span className="text-xs leading-6">
+                  J&apos;accepte qu&apos;Equalizer Studio conserve cette photo pour l&apos;étude de ma
+                  candidature. Je peux demander son effacement à tout moment en écrivant à{" "}
+                  <span className="text-white">contact.equalizerstudio@gmail.com</span>.
+                </span>
+              </label>
+            )}
           </div>
 
           <div className="flex gap-3">
