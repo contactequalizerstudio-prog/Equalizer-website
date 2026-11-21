@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { HostessItem } from "@/lib/hostess-store";
 import { toDisplaySrc } from "@/lib/blob-utils";
+import RecadrageModal from "@/components/RecadrageModal";
 
 interface Props {
   mode: "create" | "edit";
@@ -29,6 +30,7 @@ export default function HostessForm({ mode, itemId }: Props) {
   const [loading, setLoading] = useState(mode === "edit");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [aRecadrer, setaRecadrer] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -74,19 +76,26 @@ export default function HostessForm({ mode, itemId }: Props) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 4 * 1024 * 1024) {
-      setError("Image trop lourde. Maximum 4 Mo.");
+    if (file.size > 12 * 1024 * 1024) {
+      setError("Image trop lourde. Maximum 12 Mo.");
       return;
     }
 
+    // Toute photo passe par le cadrage : c'est ce qui rend le catalogue homogène.
+    setError("");
+    setaRecadrer(file);
+  }
+
+  async function envoyer(image: Blob) {
+    setaRecadrer(null);
     setUploading(true);
     setError("");
 
-    const localPreview = URL.createObjectURL(file);
+    const localPreview = URL.createObjectURL(image);
     setPreviewSrc(localPreview);
 
     const fd = new FormData();
-    fd.append("file", file);
+    fd.append("file", new File([image], "photo.jpg", { type: "image/jpeg" }));
 
     try {
       const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
@@ -211,6 +220,9 @@ export default function HostessForm({ mode, itemId }: Props) {
               accept="image/*"
               className="hidden"
               onChange={handleFileUpload}
+              onClick={(e) => {
+                (e.target as HTMLInputElement).value = "";
+              }}
             />
           </div>
         </div>
@@ -410,6 +422,14 @@ export default function HostessForm({ mode, itemId }: Props) {
           </Link>
         </div>
       </form>
+
+      {aRecadrer && (
+        <RecadrageModal
+          fichier={aRecadrer}
+          onAnnuler={() => setaRecadrer(null)}
+          onValider={envoyer}
+        />
+      )}
     </div>
   );
 }
