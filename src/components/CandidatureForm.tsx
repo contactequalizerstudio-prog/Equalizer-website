@@ -97,6 +97,25 @@ function RadioGroup({
   );
 }
 
+/* ── Mini-test d'anglais ──
+   Six questions de compréhension tirées du quotidien d'un stand, puis une réponse
+   libre. Les bonnes réponses ne sont pas ici : la correction se fait côté serveur,
+   pour que le score ne puisse pas être fabriqué depuis le navigateur. */
+const QUESTIONS_EN: { q: string; options: string[] }[] = [
+  { q: "A visitor asks: « Where can I find the restrooms? » What is she looking for?",
+    options: ["The exit", "The toilets", "The car park", "The bar"] },
+  { q: "Which sentence is correct?",
+    options: ["She work here since 2020", "She working here since 2020", "She has been working here since 2020", "She is work here since 2020"] },
+  { q: "« Could you please fill in this form? » — the visitor is asking you to…",
+    options: ["Sign a contract", "Translate a text", "Keep a file", "Complete a form"] },
+  { q: "Complete: « Welcome to our stand! ___ I help you? »",
+    options: ["Do", "May", "Is", "Am"] },
+  { q: "« The event starts at half past seven. » What time is it?",
+    options: ["6:30", "7:15", "7:30", "8:30"] },
+  { q: "« We are running out of brochures. » It means…",
+    options: ["They are late", "There are almost none left", "We are printing more", "They are free"] },
+];
+
 /* ── Main component ── */
 export default function CandidatureForm() {
   const [step, setStep] = useState(1);
@@ -121,11 +140,20 @@ export default function CandidatureForm() {
   const [prestationsAnimatrice, setPrestationsAnimatrice] = useState<string[]>([]);
   const [cursus, setCursus] = useState("");
 
-  const goNext = (e: React.FormEvent) => {
+  /* Section 3 — anglais */
+  const [anglaisDeclare, setAnglaisDeclare] = useState("");
+  const [reponsesEn, setReponsesEn] = useState<string[]>(Array(QUESTIONS_EN.length).fill(""));
+  const [texteEn, setTexteEn] = useState("");
+
+  const repondre = (i: number, v: string) =>
+    setReponsesEn((prev: string[]) => prev.map((x, k) => (k === i ? v : x)));
+
+  const goTo = (n: number) => (e: React.FormEvent) => {
     e.preventDefault();
-    setStep(2);
+    setStep(n);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const goNext = goTo(2);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -138,6 +166,7 @@ export default function CandidatureForm() {
           nom, dateNaissance, email, telephone, adresse, facebook,
           activite, anneesAnimation, langues, disponibilites, agence,
           mensurations, prestationsHotesse, prestationsAnimatrice, cursus,
+          anglaisDeclare, reponsesEn, texteEn,
         }),
       });
       setStatus(res.ok ? "sent" : "error");
@@ -174,7 +203,7 @@ export default function CandidatureForm() {
     <div>
       {/* ── Stepper ── */}
       <div className="flex items-center gap-4 mb-10">
-        {[1, 2].map((s) => (
+        {[1, 2, 3].map((s) => (
           <div key={s} className="flex items-center gap-3">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-colors duration-300 ${
               step >= s ? "bg-gold text-background" : "bg-surface border border-border text-muted"
@@ -182,9 +211,9 @@ export default function CandidatureForm() {
               {s}
             </div>
             <span className={`text-xs tracking-[0.15em] uppercase hidden sm:block ${step >= s ? "text-white" : "text-muted"}`}>
-              {s === 1 ? "Informations personnelles" : "Prestations & profil"}
+              {s === 1 ? "Informations personnelles" : s === 2 ? "Prestations & profil" : "Anglais"}
             </span>
-            {s < 2 && <div className={`flex-1 h-px w-12 ${step > s ? "bg-gold" : "bg-border"}`} />}
+            {s < 3 && <div className={`flex-1 h-px w-12 ${step > s ? "bg-gold" : "bg-border"}`} />}
           </div>
         ))}
       </div>
@@ -304,7 +333,7 @@ export default function CandidatureForm() {
 
       {/* ── Section 2 ── */}
       {step === 2 && (
-        <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
+        <form onSubmit={goTo(3)} noValidate className="flex flex-col gap-6">
 
           {/* Photo reminder */}
           <div className="bg-gold/10 border border-gold/30 rounded-xl p-5 flex gap-4 items-start">
@@ -360,6 +389,82 @@ export default function CandidatureForm() {
             <button
               type="button"
               onClick={() => setStep(1)}
+              className="px-6 py-4 border border-border text-muted text-xs tracking-[0.2em] uppercase rounded-full hover:border-gold hover:text-gold transition-all duration-300"
+            >
+              ← Retour
+            </button>
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="flex-1 flex items-center justify-center gap-2 py-4 bg-gold text-background font-semibold text-xs tracking-[0.2em] uppercase rounded-full hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(107,221,227,0.4)] disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {status === "sending" ? (
+                <>
+                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Envoi en cours...
+                </>
+              ) : (
+                "Continuer — Section 3 →"
+              )}
+            </button>
+          </div>
+
+        </form>
+      )}
+
+      {/* ── Section 3 : anglais ── */}
+      {step === 3 && (
+        <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
+          <div className="rounded-lg border border-border bg-background px-5 py-4">
+            <p className="text-white text-sm font-semibold mb-1">Votre niveau d&apos;anglais</p>
+            <p className="text-muted text-xs leading-6">
+              Beaucoup de nos clients reçoivent des visiteurs étrangers. Ces questions nous
+              aident à vous proposer les missions qui vous correspondent — il n&apos;y a pas de
+              mauvaise réponse, et un niveau débutant n&apos;est pas éliminatoire.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <p className={labelCls}>Comment évaluez-vous votre anglais ? <span className="text-gold">*</span></p>
+            <RadioGroup
+              options={["Débutant", "Intermédiaire", "Courant", "Bilingue"]}
+              value={anglaisDeclare}
+              onChange={setAnglaisDeclare}
+            />
+          </div>
+
+          {QUESTIONS_EN.map((item, i) => (
+            <div key={i} className="flex flex-col gap-2">
+              <p className={labelCls}>{i + 1}. {item.q}</p>
+              <RadioGroup
+                options={item.options}
+                value={reponsesEn[i]}
+                onChange={(v) => repondre(i, v)}
+              />
+            </div>
+          ))}
+
+          <div className="flex flex-col">
+            <label htmlFor="c-texteen" className={labelCls}>
+              In English: how would you welcome a visitor at a stand?
+            </label>
+            <textarea id="c-texteen" rows={4} value={texteEn}
+              onChange={(e) => setTexteEn(e.target.value)}
+              placeholder="Two or three sentences are enough."
+              className={inputCls} />
+            <p className="text-muted text-xs mt-2">
+              Écrivez avec vos propres mots, même avec des fautes : c&apos;est ce qui nous
+              apprend le plus sur votre niveau réel.
+            </p>
+          </div>
+
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={() => setStep(2)}
               className="px-6 py-4 border border-border text-muted text-xs tracking-[0.2em] uppercase rounded-full hover:border-gold hover:text-gold transition-all duration-300"
             >
               ← Retour
