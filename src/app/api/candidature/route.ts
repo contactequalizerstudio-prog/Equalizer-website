@@ -49,36 +49,14 @@ export async function POST(request: Request) {
 
     const anglais = noterAnglais(reponsesEn);
 
-    /* La photo part dans un seau privé de Supabase : aucune adresse publique.
-       Atlas la regarde ensuite par un lien signé de dix minutes. Sans
-       consentement explicite, rien n'est déposé. */
-    let photoChemin = "";
-    if (consentement === true && typeof photo === "string" && photo.startsWith("data:image/")) {
-      try {
-        const base64 = photo.slice(photo.indexOf(",") + 1);
-        const octets = Buffer.from(base64, "base64");
-        if (octets.length > 0 && octets.length <= 4 * 1024 * 1024) {
-          const alea = Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
-          const chemin = `recues/${Date.now()}-${alea}.jpg`;
-          const envoi = await fetch(
-            `${SUPABASE_URL}/storage/v1/object/candidatures/${chemin}`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "image/jpeg",
-                apikey: SUPABASE_KEY,
-                Authorization: `Bearer ${SUPABASE_KEY}`,
-              },
-              body: new Uint8Array(octets),
-            }
-          );
-          if (envoi.ok) photoChemin = chemin;
-          else console.error("Photo non déposée :", envoi.status, await envoi.text());
-        }
-      } catch (err) {
-        console.error("Photo illisible :", err);
-      }
-    }
+    /* La photo voyage avec la candidature, par la même porte. Elle est rangée
+       dans la base, jamais dans un espace adressable : aucune URL n'existe pour
+       le portrait d'une candidate. Sans consentement, rien n'est transmis. */
+    const consenti = consentement === true;
+    const photoBase64 =
+      consenti && typeof photo === "string" && photo.startsWith("data:image/")
+        ? photo.slice(photo.indexOf(",") + 1)
+        : "";
 
     /* La base d'abord : c'est elle qui fait foi et qui alimente Atlas.
        L'e-mail reste ensuite comme avis, et comme filet si la base refuse. */
@@ -106,13 +84,14 @@ export async function POST(request: Request) {
             anglais_score: anglais.score,
             anglais_sur: anglais.sur,
             anglais_reponse: texteEn,
-            photo_chemin: photoChemin,
-            consentement_photo: consentement === true,
+            photo_base64: photoBase64,
+            consentement_photo: consenti,
           },
         }),
       });
       const verdict = await rep.text();
       enregistree = rep.ok && verdict.includes("ok");
+      if (verdict.includes("ok_sans_photo")) console.warn("Candidature créée sans la photo (image refusée).");
       if (!enregistree) console.error("Candidature non enregistrée :", rep.status, verdict);
     } catch (err) {
       console.error("Supabase injoignable :", err);
@@ -161,7 +140,7 @@ export async function POST(request: Request) {
               ${row("Niveau annoncé", anglaisDeclare)}
               ${row("Questionnaire", `${anglais.score} / ${anglais.sur}`)}
               ${row("Réponse libre", texteEn)}
-              ${row("Photo", photoChemin ? "Oui, déposée avec accord" : "Non")}
+              ${row("Photo", photoBase64 ? "Oui, jointe avec accord" : "Non")}
             </table>
 
             <h2 style="margin:0 0 14px;font-size:13px;color:#0e8ec4;letter-spacing:0.15em;text-transform:uppercase">Prestations & profil</h2>
